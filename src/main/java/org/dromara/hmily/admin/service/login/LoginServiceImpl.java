@@ -18,7 +18,6 @@
 package org.dromara.hmily.admin.service.login;
 
 import org.dromara.hmily.admin.service.LoginService;
-import org.dromara.hmily.common.utils.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +45,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Boolean login(final String userName, final String password) {
-        LogUtil.info(LOGGER, "输入的用户名密码为:{}", () -> userName + "," + password);
+        LOGGER.info( "输入的用户名密码为:{}",  userName + "," + password);
         if (userName.equals(this.userName) && password.equals(this.password)) {
             LOGIN_SUCCESS = true;
             return Boolean.TRUE;

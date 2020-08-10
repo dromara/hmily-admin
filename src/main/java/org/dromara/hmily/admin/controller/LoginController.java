@@ -18,8 +18,8 @@
 package org.dromara.hmily.admin.controller;
 
 import org.dromara.hmily.admin.dto.UserDTO;
+import org.dromara.hmily.admin.result.AjaxResponse;
 import org.dromara.hmily.admin.service.LoginService;
-import org.dromara.hmily.common.utils.httpclient.AjaxResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

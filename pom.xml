@@ -14,6 +14,18 @@
         <version>2.1.1.RELEASE</version>
     </parent>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>1.8</jdk.version>
+        <mongo.driver.version>3.5.0</mongo.driver.version>
+        <mysql-connector-java>5.1.46</mysql-connector-java>
+        <commons-lang3.version>3.3.2</commons-lang3.version>
+        <guava.version>21.0</guava.version>
+        <gson.verions>2.8.0</gson.verions>
+        <lombok.version>1.16.14</lombok.version>
+        <hikaricp.version>3.2.0</hikaricp.version>
+    </properties>
+
     <dependencies>
 
         <!--spring boot的核心启动器-->
@@ -115,6 +127,18 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
 
         <dependency>
