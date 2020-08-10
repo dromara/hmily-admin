@@ -15,26 +15,50 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin;
+package org.dromara.hmily.admin.config;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * hmily admin start.
+ * The type Hmily admin properties.
  *
  * @author xiaoyu
  */
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-public class AdminApplication {
-
+@Data
+@ConfigurationProperties(prefix = "hmily.admin")
+public class HmilyAdminProperties {
+    
+    private Integer retryMax = 10;
+    
     /**
-     * main start.
-     * @param args args
+     * repository.
      */
-    public static void main(final String[] args) {
-        SpringApplication.run(AdminApplication.class, args);
-    }
+    private String repository = "mysql";
+    
+    /**
+     * db config.
+     */
+    private HmilyDatabaseProperties hmilyDbConfig;
+    
+    /**
+     * mongo config.
+     */
+    private HmilyMongoProperties hmilyMongoConfig;
+    
+    /**
+     * redis config.
+     */
+    private HmilyRedisProperties hmilyRedisConfig;
+    
+    /**
+     * zookeeper config.
+     */
+    private HmilyZookeeperProperties hmilyZookeeperConfig;
+    
+    /**
+     * file config.
+     */
+    private HmilyFileProperties hmilyFileConfig;
+    
 }

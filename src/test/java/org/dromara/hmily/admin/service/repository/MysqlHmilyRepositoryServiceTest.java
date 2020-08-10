@@ -15,51 +15,41 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin.service.compensate;
+package org.dromara.hmily.admin.service.repository;
 
 import org.dromara.hmily.admin.page.CommonPager;
 import org.dromara.hmily.admin.page.PageParameter;
-import org.dromara.hmily.admin.query.CompensationQuery;
-import org.dromara.hmily.admin.service.CompensationService;
-import org.dromara.hmily.admin.vo.HmilyCompensationVO;
+import org.dromara.hmily.admin.query.RepositoryQuery;
+import org.dromara.hmily.admin.service.HmilyRepositoryService;
+import org.dromara.hmily.admin.vo.HmilyTransactionVO;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+
 /**
- * <p>Description:</p>
  *
  * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/10/20 16:01
- * @since JDK 1.8
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class MongoCompensationServiceImplTest {
-
-
+public class MysqlHmilyRepositoryServiceTest {
+    
     @Autowired
-    private CompensationService compensationService;
-
+    private HmilyRepositoryService hmilyRepositoryService;
 
     @Test
-    public void listByPage() throws Exception {
-
-
-        CompensationQuery query = new CompensationQuery();
-
-        query.setApplicationName("alipay-service");
-
-        PageParameter pageParameter = new PageParameter(1,5);
-
+    public void listByPage() {
+        RepositoryQuery query = new RepositoryQuery();
+        PageParameter pageParameter = new PageParameter(1,10);
         query.setPageParameter(pageParameter);
-
-        final CommonPager<HmilyCompensationVO> voCommonPager = compensationService.listByPage(query);
-
-
+        final CommonPager<HmilyTransactionVO> pager = hmilyRepositoryService.listByPage(query);
+        Assert.assertNotNull(pager.getDataList());
     }
 
 }

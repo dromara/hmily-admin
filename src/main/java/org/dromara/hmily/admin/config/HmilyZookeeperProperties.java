@@ -15,26 +15,21 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin;
+package org.dromara.hmily.admin.config;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import lombok.Data;
 
 /**
- * hmily admin start.
+ * The zookeeper config.
  *
  * @author xiaoyu
  */
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-public class AdminApplication {
+@Data
+public class HmilyZookeeperProperties {
 
-    /**
-     * main start.
-     * @param args args
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(AdminApplication.class, args);
-    }
+    private String host;
+
+    private int sessionTimeOut = 1000;
+
+    private String rootPath = "/hmily";
 }

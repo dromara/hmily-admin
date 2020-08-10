@@ -15,21 +15,36 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin.service;
+package org.dromara.hmily.admin.config;
 
-import java.util.List;
+import lombok.Data;
 
 /**
- * ApplicationNameService.
- * @author xiaoyu(Myth)
+ * The mongo config.
+ *
+ * @author xiaoyu
  */
-@FunctionalInterface
-public interface ApplicationNameService {
+@Data
+public class HmilyMongoProperties {
 
     /**
-     * acquired app name.
-     *
-     * @return  app name list.
+     * mongo db name .
      */
-    List<String> list();
+    private String mongoDbName;
+
+    /**
+     * mongo url.
+     */
+    private String mongoDbUrl;
+
+    /**
+     * mongo user name .
+     */
+    private String mongoUserName;
+
+    /**
+     * mongo password.
+     */
+    private String mongoUserPwd;
+
 }

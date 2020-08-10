@@ -15,26 +15,11 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin;
+package org.dromara.hmily.admin.service.repository.db;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.dromara.hmily.admin.spi.Join;
 
-/**
- * hmily admin start.
- *
- * @author xiaoyu
- */
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-public class AdminApplication {
+@Join
+public class OracleHmilyRepositoryService extends AbstractHmilyRepositoryService {
 
-    /**
-     * main start.
-     * @param args args
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(AdminApplication.class, args);
-    }
 }

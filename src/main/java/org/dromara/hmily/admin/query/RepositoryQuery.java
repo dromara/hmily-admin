@@ -15,26 +15,42 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin;
+package org.dromara.hmily.admin.query;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import lombok.Data;
+import org.dromara.hmily.admin.page.PageParameter;
+
+import java.io.Serializable;
 
 /**
- * hmily admin start.
+ * query condition.
  *
- * @author xiaoyu
+ * @author xiaoyu(Myth)
  */
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-public class AdminApplication {
+@Data
+public class RepositoryQuery implements Serializable {
+
+    private static final long serialVersionUID = 3297929795348894462L;
 
     /**
-     * main start.
-     * @param args args
+     * app name.
      */
-    public static void main(final String[] args) {
-        SpringApplication.run(AdminApplication.class, args);
-    }
+    private String appName;
+
+    /**
+     * transId.
+     */
+    private Long transId;
+
+    /**
+     * retry.
+     */
+    private Integer retry;
+
+    /**
+     * pageParameter.
+     */
+    private PageParameter pageParameter;
+
+
 }

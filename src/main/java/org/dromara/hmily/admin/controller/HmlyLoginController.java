@@ -31,12 +31,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @author xiaoyu(Myth)
  */
 @RestController
-public class LoginController {
+public class HmlyLoginController {
 
     private final LoginService loginService;
 
     @Autowired
-    public LoginController(final LoginService loginService) {
+    public HmlyLoginController(final LoginService loginService) {
         this.loginService = loginService;
     }
 

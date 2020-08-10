@@ -15,28 +15,33 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin.dto;
-
-import lombok.Data;
+package org.dromara.hmily.admin.vo;
 
 import java.io.Serializable;
 import java.util.List;
+import lombok.Data;
 
 /**
- * CompensationDTO.
+ * HmilyTransactionVO.
+ *
  * @author xiaoyu(Myth)
  */
 @Data
-public class CompensationDTO implements Serializable {
-
-    private static final long serialVersionUID = 6905402148490426011L;
-
-    private String applicationName;
-
-    private List<String> ids;
-
-    private String id;
-
-    private Integer retry;
-
+public class HmilyTransactionVO implements Serializable {
+    
+    private Long transId;
+    
+    private String appName;
+    
+    private Integer status;
+    
+    private String transType;
+    
+    private Integer version;
+    
+    private String createTime;
+    
+    private String updateTime;
+    
+    private List<HmilyParticipantVO> participantVOList;
 }

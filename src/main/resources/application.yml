@@ -7,17 +7,9 @@ spring:
    application:
       name: hmily-admin
    profiles:
-     active: db
+     active: mysql
 
 hmily:
   admin :
     userName : admin
     password : admin
-
-compensation:
-   application:
-      list : account-service,inventory-service,order-service
-   serializer :
-      support: kryo
-   retry :
-      max: 10

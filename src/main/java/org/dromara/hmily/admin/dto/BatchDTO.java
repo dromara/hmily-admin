@@ -15,41 +15,26 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin.query;
-
-import lombok.Data;
-import org.dromara.hmily.admin.page.PageParameter;
+package org.dromara.hmily.admin.dto;
 
 import java.io.Serializable;
+import java.util.List;
+import lombok.Data;
 
 /**
- * query condition.
+ * BatchDTO.
+ *
  * @author xiaoyu(Myth)
  */
 @Data
-public class CompensationQuery implements Serializable {
-
-    private static final long serialVersionUID = 3297929795348894462L;
-
-    /**
-     * app name.
-     */
-    private String applicationName;
-
-    /**
-     * transId.
-     */
-    private String transId;
-
-    /**
-     * retry.
-     */
+public class BatchDTO implements Serializable {
+    
+    private static final long serialVersionUID = 6905402148490426011L;
+    
+    private List<Long> ids;
+    
+    private Long id;
+    
     private Integer retry;
-
-    /**
-     * pageParameter.
-     */
-    private PageParameter pageParameter;
-
-
+    
 }

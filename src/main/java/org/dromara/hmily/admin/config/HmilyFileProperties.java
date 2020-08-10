@@ -15,37 +15,24 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin.vo;
+package org.dromara.hmily.admin.config;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * HmilyCompensationVO.
- * @author xiaoyu(Myth)
+ * The HmilyFileConfig.
+ * @author xiaoyu
  */
 @Data
-public class HmilyCompensationVO implements Serializable {
+public class HmilyFileProperties {
 
-    private static final long serialVersionUID = 564418979137349581L;
+    /**
+     * path.
+     */
+    private String path;
 
-    private String transId;
-
-    private Integer retriedCount;
-
-    private String createTime;
-
-    private String lastTime;
-
-    private Integer version;
-
-    private String targetClass;
-
-    private String targetMethod;
-
-    private String confirmMethod;
-
-    private String cancelMethod;
-
+    /**
+     * prefix.
+     */
+    private String prefix;
 }

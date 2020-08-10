@@ -15,27 +15,11 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin.service.compensate;
+package org.dromara.hmily.admin.service.repository.db;
 
-import com.google.common.base.Splitter;
-import org.dromara.hmily.admin.service.ApplicationNameService;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.dromara.hmily.admin.spi.Join;
 
-import java.util.List;
+@Join
+public class MysqlHmilyRepositoryService extends AbstractHmilyRepositoryService {
 
-/**
- * ApplicationNameServiceImpl.
- * @author xiaoyu(Myth)
- */
-@Service("recoverApplicationNameService")
-public class ApplicationNameServiceImpl implements ApplicationNameService {
-
-    @Value("${compensation.application.list}")
-    private String appNameList;
-
-    @Override
-    public List<String> list() {
-        return Splitter.on(",").splitToList(appNameList);
-    }
 }

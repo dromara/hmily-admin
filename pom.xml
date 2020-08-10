@@ -27,7 +27,6 @@
     </properties>
 
     <dependencies>
-
         <!--spring boot的核心启动器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -55,31 +54,10 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-        <!--  <dependency>
-              <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-starter-data-mongodb</artifactId>
-          </dependency>-->
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.tomcat</groupId>
-                    <artifactId>tomcat-jdbc</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework</groupId>-->
+<!--            <artifactId>spring-jdbc</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -120,13 +98,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.47</version>
         </dependency>
 
         <dependency>

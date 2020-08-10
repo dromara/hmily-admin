@@ -1,0 +1,6 @@
+oracle=org.dromara.hmily.admin.service.repository.db.OracleHmilyRepositoryService
+mysql=org.dromara.hmily.admin.service.repository.db.MysqlHmilyRepositoryService
+file=org.dromara.hmily.admin.service.repository.file.FileHmilyRepositoryService
+mongo=org.dromara.hmily.admin.service.repository.mongo.MongoHmilyRepositoryService
+redis=org.dromara.hmily.admin.service.repository.redis.RedisHmilyRepositoryService
+zookeeper=org.dromara.hmily.admin.service.repository.zookeeper.ZookeeperHmilyRepositoryService
