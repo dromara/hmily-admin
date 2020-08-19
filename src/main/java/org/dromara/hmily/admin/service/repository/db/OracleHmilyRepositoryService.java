@@ -29,7 +29,7 @@ public class OracleHmilyRepositoryService extends AbstractHmilyRepositoryService
     }
     
     @Override
-    protected String buildTimeQueryCondition(String time) {
+    protected String buildTimeQueryCondition(final String time) {
         return null;
     }
 }

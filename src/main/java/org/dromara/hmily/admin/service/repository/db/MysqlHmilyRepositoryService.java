@@ -30,7 +30,7 @@ public class MysqlHmilyRepositoryService extends AbstractHmilyRepositoryService 
     }
     
     @Override
-    protected String buildTimeQueryCondition(String time) {
+    protected String buildTimeQueryCondition(final String time) {
         return "'" + time + "'";
     }
 }

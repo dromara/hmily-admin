@@ -85,7 +85,7 @@ public class MongoHmilyRepositoryService implements HmilyRepositoryService {
     }
     
     @Override
-    public Boolean updateHmilyParticipantRetry(final Long participantIds, Integer retry) {
+    public Boolean updateHmilyParticipantRetry(final Long participantIds, final Integer retry) {
         return null;
     }
     
