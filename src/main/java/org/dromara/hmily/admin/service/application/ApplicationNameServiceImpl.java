@@ -15,21 +15,27 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin.service.repository.db;
+package org.dromara.hmily.admin.service.application;
 
-import org.dromara.hmily.admin.page.PageParameter;
-import org.dromara.hmily.admin.spi.Join;
+import com.google.common.base.Splitter;
+import org.dromara.hmily.admin.service.ApplicationNameService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-@Join
-public class OracleHmilyRepositoryService extends AbstractHmilyRepositoryService {
-    
+import java.util.List;
+
+/**
+ * ApplicationNameServiceImpl.
+ * @author xiaoyu(Myth)
+ */
+@Service("recoverApplicationNameService")
+public class ApplicationNameServiceImpl implements ApplicationNameService {
+
+    @Value("${compensation.application.list}")
+    private String appNameList;
+
     @Override
-    protected String bulidSqlByPage(final String sql, final PageParameter pageParameter) {
-        return null;
-    }
-    
-    @Override
-    protected String buildTimeQueryCondition(String time) {
-        return null;
+    public List<String> list() {
+        return Splitter.on(",").splitToList(appNameList);
     }
 }

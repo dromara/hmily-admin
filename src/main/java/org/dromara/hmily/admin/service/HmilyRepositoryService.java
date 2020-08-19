@@ -18,11 +18,13 @@
 package org.dromara.hmily.admin.service;
 
 import java.util.List;
+import java.util.Map;
+
 import org.dromara.hmily.admin.config.HmilyAdminProperties;
 import org.dromara.hmily.admin.page.CommonPager;
 import org.dromara.hmily.admin.query.RepositoryQuery;
-import org.dromara.hmily.admin.spi.HmilySPI;
-import org.dromara.hmily.admin.vo.HmilyTransactionVO;
+import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
+import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
 
 /**
  * The interface Hmily repository service.
@@ -37,12 +39,20 @@ public interface HmilyRepositoryService {
     void init(HmilyAdminProperties properties);
     
     /**
-     * acquired {@linkplain HmilyTransactionVO} by page.
+     * acquired {@linkplain HmilyTransactionDTO} by page.
      *
      * @param query {@linkplain RepositoryQuery}
      * @return CommonPager TransactionRecoverVO
      */
-    CommonPager<HmilyTransactionVO> listByPage(RepositoryQuery query);
+    CommonPager<HmilyTransactionDTO> listByPageHmilyTransaction(RepositoryQuery query);
+    
+    /**
+     * acquired {@linkplain HmilyParticipantDTO} by page.
+     *
+     * @param query {@linkplain RepositoryQuery}
+     * @return CommonPager HmilyParticipantVO
+     */
+    CommonPager<HmilyParticipantDTO> listByPageHmilyParticipant(RepositoryQuery query);
     
     /**
      * Batch remove hmily transaction boolean.
@@ -63,9 +73,18 @@ public interface HmilyRepositoryService {
     /**
      * Update hmily participant retry boolean.
      *
-     * @param participantIds the participant ids
+     * @param participantId the participant ids
      * @param retry          the retry
      * @return the boolean
      */
-    Boolean updateHmilyParticipantRetry(Long participantIds, Integer retry);
+    Boolean updateHmilyParticipantRetry(Long participantId, Integer retry);
+    
+    /**
+     * query count participants by transIds.
+     *
+     * @param transIds the transaction ids
+     * @return the boolean
+     */
+    List<Map<String, Object>> queryByTransIds(List<Long> transIds);
+    
 }

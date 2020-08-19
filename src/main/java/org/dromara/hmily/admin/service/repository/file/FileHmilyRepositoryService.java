@@ -18,12 +18,15 @@
 package org.dromara.hmily.admin.service.repository.file;
 
 import java.util.List;
+import java.util.Map;
+
 import org.dromara.hmily.admin.config.HmilyAdminProperties;
 import org.dromara.hmily.admin.page.CommonPager;
 import org.dromara.hmily.admin.query.RepositoryQuery;
 import org.dromara.hmily.admin.service.HmilyRepositoryService;
 import org.dromara.hmily.admin.spi.Join;
-import org.dromara.hmily.admin.vo.HmilyTransactionVO;
+import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
+import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
 
 /**
  * File impl.
@@ -39,7 +42,12 @@ public class FileHmilyRepositoryService implements HmilyRepositoryService {
     }
     
     @Override
-    public CommonPager<HmilyTransactionVO> listByPage(final RepositoryQuery query) {
+    public CommonPager<HmilyTransactionDTO> listByPageHmilyTransaction(final RepositoryQuery query) {
+        return null;
+    }
+    
+    @Override
+    public CommonPager<HmilyParticipantDTO> listByPageHmilyParticipant(final RepositoryQuery query) {
         return null;
     }
     
@@ -54,8 +62,13 @@ public class FileHmilyRepositoryService implements HmilyRepositoryService {
     }
     
     @Override
-    public Boolean updateHmilyParticipantRetry(Long participantIds, Integer retry) {
+    public Boolean updateHmilyParticipantRetry(final Long participantIds, final Integer retry) {
         return null;
     }
-
+    
+    @Override
+    public List<Map<String, Object>> queryByTransIds(final List<Long> transIds) {
+        return null;
+    }
+    
 }

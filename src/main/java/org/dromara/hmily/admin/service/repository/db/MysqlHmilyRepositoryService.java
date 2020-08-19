@@ -17,9 +17,20 @@
 
 package org.dromara.hmily.admin.service.repository.db;
 
+import org.dromara.hmily.admin.helper.PageHelper;
+import org.dromara.hmily.admin.page.PageParameter;
 import org.dromara.hmily.admin.spi.Join;
 
 @Join
 public class MysqlHmilyRepositoryService extends AbstractHmilyRepositoryService {
-
+    
+    @Override
+    protected String bulidSqlByPage(final String sql, final PageParameter pageParameter) {
+        return PageHelper.buildPageSqlForMysql(sql, pageParameter).toString();
+    }
+    
+    @Override
+    protected String buildTimeQueryCondition(String time) {
+        return "'" + time + "'";
+    }
 }

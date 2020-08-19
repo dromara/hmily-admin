@@ -18,6 +18,8 @@
 package org.dromara.hmily.admin.query;
 
 import lombok.Data;
+import org.dromara.hmily.admin.enums.HmilyTransactionStatusEnum;
+import org.dromara.hmily.admin.enums.HmilyParticipantStatusEnum;
 import org.dromara.hmily.admin.page.PageParameter;
 
 import java.io.Serializable;
@@ -41,11 +43,37 @@ public class RepositoryQuery implements Serializable {
      * transId.
      */
     private Long transId;
-
+    
+    /**
+     * participantRefId.
+     */
+    private Long participantRefId;
+    
+    /**
+     * transType.
+     */
+    private String transType;
+    
+    /**
+     * {@linkplain HmilyTransactionStatusEnum}
+     * {@linkplain HmilyParticipantStatusEnum}
+     */
+    private String status;
+    
     /**
      * retry.
      */
     private Integer retry;
+    
+    /**
+     * createTime
+     * */
+    private String createTime;
+    
+    /**
+     * updateTime
+     * */
+    private String updateTime;
 
     /**
      * pageParameter.

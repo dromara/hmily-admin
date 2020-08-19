@@ -120,9 +120,14 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
+        <pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -150,7 +155,30 @@
                     <useDefaultDelimiters>true</useDefaultDelimiters>
                 </configuration>
             </plugin>
-
+<!--             <plugin>
+               <groupId>org.sonatype.plugins</groupId>
+               <artifactId>nexus-staging-maven-plugin</artifactId>
+               <version>1.6.3</version>
+               <extensions>true</extensions>
+               <configuration>
+                   <serverId>ossrh</serverId>
+                   <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                   <autoReleaseAfterClose>true</autoReleaseAfterClose>
+               </configuration>
+           </plugin>
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-gpg-plugin</artifactId>
+               <version>1.5</version>
+               <executions>
+                   <execution>
+                       <phase>verify</phase>
+                       <goals>
+                           <goal>sign</goal>
+                       </goals>
+                   </execution>
+               </executions>
+           </plugin>-->
             <!-- maven install 跳过测试  等价于命令 mvn install -Dmaven.test.skip = true-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -160,5 +188,6 @@
                 </configuration>
             </plugin>
         </plugins>
+        </pluginManagement>
     </build>
 </project>
