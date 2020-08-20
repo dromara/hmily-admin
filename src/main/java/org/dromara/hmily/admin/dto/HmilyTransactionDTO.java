@@ -15,26 +15,58 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin.annotation;
+package org.dromara.hmily.admin.dto;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.io.Serializable;
+import java.util.List;
+import lombok.Data;
 
 /**
- * Permission.
+ * HmilyTransactionDTO.
+ *
  * @author xiaoyu(Myth)
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Permission {
-
+@Data
+public class HmilyTransactionDTO implements Serializable {
+    
     /**
-     * is login.
-     *
-     * @return  true
-     */
-    boolean isLogin() default false;
-
+     * transaction id.
+     * */
+    private Long transId;
+    
+    /**
+     * app name.
+     * */
+    private String appName;
+    
+    /**
+     * transaction overall status.
+     * */
+    private Integer status;
+    
+    /**
+     * transaction type.
+     * */
+    private String transType;
+    
+    /**
+     * retry.
+     * */
+    private Integer retry;
+    
+    /**
+     * version.
+     * */
+    private Integer version;
+    
+    /**
+     * create time.
+     * */
+    private String createTime;
+    
+    /**
+     * update time.
+     * */
+    private String updateTime;
+    
 }

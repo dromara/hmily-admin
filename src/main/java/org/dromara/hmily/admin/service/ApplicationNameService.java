@@ -15,26 +15,21 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin.annotation;
+package org.dromara.hmily.admin.service;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.List;
 
 /**
- * Permission.
+ * ApplicationNameService.
  * @author xiaoyu(Myth)
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Permission {
+@FunctionalInterface
+public interface ApplicationNameService {
 
     /**
-     * is login.
+     * acquired app name.
      *
-     * @return  true
+     * @return  app name list.
      */
-    boolean isLogin() default false;
-
+    List<String> list();
 }

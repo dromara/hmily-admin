@@ -21,30 +21,24 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.result.UpdateResult;
+
 import java.net.InetSocketAddress;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.dromara.hmily.admin.config.HmilyAdminProperties;
 import org.dromara.hmily.admin.config.HmilyMongoProperties;
 import org.dromara.hmily.admin.exception.HmilyAdminException;
-import org.dromara.hmily.admin.helper.PageHelper;
 import org.dromara.hmily.admin.page.CommonPager;
-import org.dromara.hmily.admin.page.PageParameter;
 import org.dromara.hmily.admin.query.RepositoryQuery;
 import org.dromara.hmily.admin.service.HmilyRepositoryService;
 import org.dromara.hmily.admin.spi.Join;
-import org.dromara.hmily.admin.vo.HmilyTransactionVO;
+import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
+import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
 import org.springframework.data.mongodb.core.MongoClientFactoryBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.CollectionUtils;
 
 /**
  * Mongodb impl.
@@ -71,7 +65,12 @@ public class MongoHmilyRepositoryService implements HmilyRepositoryService {
     }
     
     @Override
-    public CommonPager<HmilyTransactionVO> listByPage(final RepositoryQuery query) {
+    public CommonPager<HmilyTransactionDTO> listByPageHmilyTransaction(final RepositoryQuery query) {
+        return null;
+    }
+    
+    @Override
+    public CommonPager<HmilyParticipantDTO> listByPageHmilyParticipant(final RepositoryQuery query) {
         return null;
     }
     
@@ -86,7 +85,12 @@ public class MongoHmilyRepositoryService implements HmilyRepositoryService {
     }
     
     @Override
-    public Boolean updateHmilyParticipantRetry(Long participantIds, Integer retry) {
+    public Boolean updateHmilyParticipantRetry(final Long participantIds, final Integer retry) {
+        return null;
+    }
+    
+    @Override
+    public List<Map<String, Object>> queryByTransIds(final List<Long> transIds) {
         return null;
     }
     

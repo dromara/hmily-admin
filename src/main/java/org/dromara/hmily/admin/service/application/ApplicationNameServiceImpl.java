@@ -15,26 +15,27 @@
  * limitations under the License.
  */
 
-package org.dromara.hmily.admin.annotation;
+package org.dromara.hmily.admin.service.application;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.google.common.base.Splitter;
+import org.dromara.hmily.admin.service.ApplicationNameService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
- * Permission.
+ * ApplicationNameServiceImpl.
  * @author xiaoyu(Myth)
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Permission {
+@Service("recoverApplicationNameService")
+public class ApplicationNameServiceImpl implements ApplicationNameService {
 
-    /**
-     * is login.
-     *
-     * @return  true
-     */
-    boolean isLogin() default false;
+    @Value("${compensation.application.list}")
+    private String appNameList;
 
+    @Override
+    public List<String> list() {
+        return Splitter.on(",").splitToList(appNameList);
+    }
 }

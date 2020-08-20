@@ -17,9 +17,19 @@
 
 package org.dromara.hmily.admin.service.repository.db;
 
+import org.dromara.hmily.admin.page.PageParameter;
 import org.dromara.hmily.admin.spi.Join;
 
 @Join
 public class OracleHmilyRepositoryService extends AbstractHmilyRepositoryService {
-
+    
+    @Override
+    protected String bulidSqlByPage(final String sql, final PageParameter pageParameter) {
+        return null;
+    }
+    
+    @Override
+    protected String buildTimeQueryCondition(final String time) {
+        return null;
+    }
 }
