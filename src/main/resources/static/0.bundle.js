@@ -3024,9 +3024,15 @@ if(true) {
             count: 0,
             res: null,
             options: [],
+            statusLists:["RUN","SUCCESS","FAILURE"],
             selected: "",
             retryCount: '',
             txGroupId: "",
+            transId: "",
+            transType: "",
+            createTime: "",
+            updateTime: "",
+            status: "",
             //更改重试次数
             dialogFormVisible: false,
             form: {
@@ -3045,7 +3051,7 @@ if(true) {
     created: function created() {
         var _this = this;
 
-        this.$http.post(this.baseUrl + '/compensate/listAppName', {}).then(function (response) {
+        this.$http.get(this.baseUrl + '/application/listAppName', {}).then(function (response) {
             if (response.body.code == 200 && response.body.data != null) {
                 _this.options = response.body.data;
                 _this.selected = _this.options[0];
@@ -3065,54 +3071,19 @@ if(true) {
     },
 
     methods: {
-        editClicked: function editClicked(row) {
-            this.dialogFormVisible = true;
-            this.currentRow = row;
-        },
-
-        updateRetryCount: function updateRetryCount() {
-            var _this2 = this;
-
-            var tData = this.tableData;
-            this.$http.post(this.baseUrl + '/compensate/update', {
-                "applicationName": this.selected,
-                "retry": this.form.newRetryCount,
-                "id": this.currentRow.transId
-            }).then(function (response) {
-                if (response.body.code == 200) {
-                    for (var i = 0, len = tData.length; i < len; i++) {
-                        if (_this2.currentRow.id == tData[i].id) {
-                            tData[i].retriedCount = _this2.form.newRetryCount;
-                        }
-                    }
-                    _this2.dialogFormVisible = false;
-                    _this2.$message({
-                        type: 'success',
-                        message: '更新数据成功!'
-                    });
-                } else {
-                    _this2.$message({
-                        type: 'error',
-                        message: response.body.message
-                    });
-                }
-            }, function (response) {
-                _this2.$message({
-                    type: 'error',
-                    message: response
-                });
-            });
-        },
         query: function query() {
             var _this3 = this;
 
-            this.$http.post(this.baseUrl + '/compensate/listPage', {
+            this.$http.post(this.baseUrl + '/repository/listPageHmilyTransaction', {
                 "pageParameter": {
+                    "currentPage": this.paging.currentPage,
                     "pageSize": this.paging.limit
                 },
-                "applicationName": this.selected,
-                "retry": this.retryCount,
-                "transId": this.transId
+                "appName": this.selected,
+                "transType": this.transType,
+                "createTime": this.createTime,
+                "updateTime": this.updateTime,
+                "status": this.status
             }).then(function (response) {
                 if (response.body.code == 200 && response.body.data != null) {
                     var rp = response.body;
@@ -3128,46 +3099,6 @@ if(true) {
                 console.log("success!");
             }, function (response) {
                 _this3.$message({
-                    type: 'error',
-                    message: response
-                });
-            });
-        },
-        deleteAll: function deleteAll() {
-            var _this4 = this;
-
-            var Selection = this.$refs.multipleTable.selection;
-            var groupIds = [];
-            var slen = Selection.length;
-            for (var i = 0; i < slen; i++) {
-                groupIds.push(Selection[i].transId);
-            }
-            //delete row and update tableData but don't send post request to update all data
-            var oldTableData = this.tableData;
-            var tlen = oldTableData.length;
-            this.$http.post(this.baseUrl + '/compensate/batchRemove', {
-                "applicationName": this.selected,
-                "ids": groupIds
-            }).then(function (response) {
-                if (response.body.code == 200) {
-                    _this4.$message({ type: 'success', message: '删除数据成功!' });
-                    for (var x = 0; x < slen; x++) {
-                        for (var j = 0; j < tlen; j++) {
-                            if (groupIds[x] == oldTableData[j].transId) {
-                                oldTableData.splice(j, 1);
-                                tlen = tlen - 1;
-                            }
-                        }
-                    }
-                    _this4.count = _this4.count - slen;
-                } else {
-                    _this4.$message({
-                        type: 'error',
-                        message: '删除数据失败!'
-                    });
-                }
-            }, function (response) {
-                _this4.$message({
                     type: 'error',
                     message: response
                 });
@@ -3191,14 +3122,17 @@ if(true) {
             handler: function handler() {
                 var _this5 = this;
 
-                this.$http.post(this.baseUrl + '/compensate/listPage', {
+                this.$http.post(this.baseUrl + '/repository/listPageHmilyTransaction', {
                     "pageParameter": {
                         "currentPage": this.paging.currentPage,
                         "pageSize": this.paging.limit
                     },
-                    "applicationName": this.selected,
+                    "appName": this.selected,
                     "retry": this.retryCount,
-                    "transId": this.transId
+                    "transType": this.transType,
+                    "createTime": this.createTime,
+                    "updateTime": this.updateTime,
+                    "status": this.status
                 }).then(function (response) {
                     if (response.body.code == 200) {
                         var rp = response.body;
@@ -3440,7 +3374,7 @@ var render = function() {
                   _c(
                     "el-select",
                     {
-                      attrs: { placeholder: "请选择Namespace" },
+                      attrs: { placeholder: "请选择应用名" },
                       model: {
                         value: _vm.selected,
                         callback: function($$v) {
@@ -3458,40 +3392,54 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c(
+               ), _c(
                 "div",
-                { staticStyle: { width: "10rem", "margin-left": "2%" } },
+                { staticStyle: { "margin-left": "2%" } },
                 [
-                  _c("el-input", {
-                    attrs: { placeholder: "请输入重试次数" },
+                  _c(
+                  "el-select",
+                    {
+                    attrs: { placeholder: "事务模式" },
                     model: {
-                      value: _vm.retryCount,
+                      value: _vm.transType,
                       callback: function($$v) {
-                        _vm.retryCount = $$v
+                        _vm.transType = $$v
                       },
-                      expression: "retryCount"
-                    }
-                  })
+                      expression: "transType"
+                }
+                    },
+                     _vm._l(_vm.typeLists, function(x) {
+                      return _c("el-option", {
+                         key: x,
+                        attrs: { label: x, value: x }
+                       })
+                      })
+                  )
                 ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticStyle: { width: "10rem", "margin-left": "2%" } },
-                [
-                  _c("el-input", {
-                    attrs: { placeholder: "请输入事务ID" },
+                    1
+                ), _c(
+                    "div",
+                    { staticStyle: { "margin-left": "2%" } },
+                    [
+                  _c(
+                    "el-select",
+                   {
+                    attrs: { placeholder: "事务状态" },
                     model: {
-                      value: _vm.transId,
+                      value: _vm.status,
                       callback: function($$v) {
-                        _vm.transId = $$v
+                       _vm.status = $$v
                       },
-                      expression: "transId"
-                    }
-                  })
+                      expression: "status"
+                      }
+                   },
+                   _vm._l(_vm.statusLists, function(x) {
+                   return _c("el-option", {
+                       key: x,
+                       attrs: { label: x, value: x }
+                     })
+                    })
+                        )
                 ],
                 1
               ),
@@ -3502,6 +3450,60 @@ var render = function() {
                 [_c("el-button", { on: { click: _vm.query } }, [_vm._v("查询")])],
                 1
               ),
+              _vm._v(" "),
+              _c("div", { staticStyle: { clear: "both" } })
+            ]
+          ),
+          _c(
+            "div",
+            {
+              staticStyle: {
+                "margin-top": "15px",
+                "margin-bottom": "10px",
+                display: "flex",
+                "justify-content": "flex-start"
+              }
+            },
+            [
+              _c(
+                  "div",
+                  { staticStyle: { "margin-left": "2%" } },
+                  [
+                      _c("el-date-picker", {
+                        attrs: { placeholder: "开始时间",
+                          format:"yyyy-MM-dd HH:mm:ss",
+                          type: "datetime"
+                        },
+                        model: {
+                          value: _vm.createTime,
+                          callback: function($$v) {
+                            _vm.createTime = $$v
+                          },
+                          expression: "createTime"
+                        }
+                      })
+                  ],
+                  1
+              ),_c(
+                  "div",
+                { staticStyle: { "margin-left": "2%" } },
+                [
+                    _c("el-date-picker", {
+                      attrs: { placeholder: "结束时间",
+                        format:"yyyy-MM-dd HH:mm:ss",
+                        type: "datetime"
+                      },
+                      model: {
+                        value: _vm.updateTime,
+                        callback: function($$v) {
+                          _vm.updateTime = $$v
+                        },
+                        expression: "updateTime"
+                      },
+                    })
+                ],
+                1
+            ),
               _vm._v(" "),
               _c("div", { staticStyle: { clear: "both" } })
             ]
@@ -3519,65 +3521,41 @@ var render = function() {
               }
             },
             [
-              _c("el-table-column", {
-                attrs: { align: "center", type: "selection", width: "40" }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  align: "center",
-                  fixed: "right",
-                  label: "操作",
-                  width: "100"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c(
-                          "el-button",
-                          {
-                            attrs: { type: "text", size: "small" },
-                            on: {
-                              click: function($event) {
-                                _vm.editClicked(scope.row)
-                              }
-                            }
-                          },
-                          [_vm._v("编辑")]
-                        )
-                      ]
-                    }
-                  }
-                ])
-              }),
               _vm._v(" "),
               _c("el-table-column", {
                 attrs: {
                   property: "transId",
                   width: "180",
                   align: "center",
-                  label: "ID"
+                  label: "全局事务ID"
                 }
               }),
               _vm._v(" "),
               _c("el-table-column", {
                 attrs: {
-                  width: "120",
-                  property: "retriedCount",
+                  width: "180",
+                  property: "transType",
                   align: "center",
-                  label: "重试次数"
+                  label: "模型类型"
                 }
               }),
               _vm._v(" "),
               _c("el-table-column", {
                 attrs: {
                   align: "center",
-                  width: "120",
+                  width: "180",
                   "show-overflow-tooltip": true,
-                  property: "version",
-                  label: "版本"
+                  property: "status",
+                  label: "事务状态"
+                }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: {
+                  align: "center",
+                  "min-width": "180",
+                  property: "participationsNum",
+                  label: "事务分支数"
                 }
               }),
               _vm._v(" "),
@@ -3585,46 +3563,6 @@ var render = function() {
                 attrs: {
                   align: "center",
                   "min-width": "200",
-                  "show-overflow-tooltip": true,
-                  property: "targetClass",
-                  label: "事务接口"
-                }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  align: "center",
-                  "min-width": "200",
-                  "show-overflow-tooltip": true,
-                  property: "targetMethod",
-                  label: "事务方法"
-                }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  align: "center",
-                  "min-width": "200",
-                  "show-overflow-tooltip": true,
-                  property: "confirmMethod",
-                  label: "confirm方法"
-                }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  align: "center",
-                  "min-width": "200",
-                  "show-overflow-tooltip": true,
-                  property: "cancelMethod",
-                  label: "cancel方法"
-                }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  width: "200",
-                  align: "center",
                   "show-overflow-tooltip": true,
                   property: "createTime",
                   label: "创建时间"
@@ -3633,54 +3571,32 @@ var render = function() {
               _vm._v(" "),
               _c("el-table-column", {
                 attrs: {
-                  width: "240",
+                  width: "200",
                   align: "center",
-                  property: "lastTime",
-                  label: "最后执行时间"
+                  property: "updateTime",
+                  label: "最新执行时间"
                 }
               })
             ],
             1
-          ),
-          _vm._v(" "),
-          _c("div", {}, [
-            _c(
-              "div",
-              {
-                staticStyle: {
-                  "margin-top": "20px",
-                  "margin-left": "20px",
-                  float: "left"
-                }
-              },
-              [
-                _c(
-                  "el-button",
-                  {
-                    attrs: { type: "danger" },
-                    on: {
-                      click: function($event) {
-                        _vm.deleteAll()
-                      }
-                    }
-                  },
-                  [_vm._v("删除勾选数据")]
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
+          )
+        ],
+        1
+    ),
+    _vm._v(" "),
+    _c("div", {}, [
+        _vm._v(" "),
+        _c(
+            "div",
+            {
                 staticClass: "Pagination",
                 staticStyle: {
                   "text-align": "left",
                   "margin-top": "20px",
                   float: "right"
                 }
-              },
-              [
+            },
+            [
                 _c("el-pagination", {
                   attrs: {
                     "current-page": _vm.paging.currentPage,
@@ -3694,91 +3610,13 @@ var render = function() {
                     "current-change": _vm.handleCurrentChange
                   }
                 })
-              ],
-              1
-            )
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "el-dialog",
-        {
-          attrs: { title: "改变重试次数", visible: _vm.dialogFormVisible },
-          on: {
-            "update:visible": function($event) {
-              _vm.dialogFormVisible = $event
-            }
-          }
-        },
-        [
-          _c("el-form", { attrs: { model: _vm.form } }, [
-            _c(
-              "div",
-              { staticStyle: { "margin-left": "0px", width: "80%" } },
-              [
-                _c(
-                  "el-form-item",
-                  {
-                    attrs: { label: "重试次数：", "label-width": _vm.formLabelWidth }
-                  },
-                  [
-                    _c("el-input", {
-                      attrs: { "auto-complete": "off" },
-                      model: {
-                        value: _vm.form.newRetryCount,
-                        callback: function($$v) {
-                          _vm.$set(_vm.form, "newRetryCount", $$v)
-                        },
-                        expression: "form.newRetryCount"
-                      }
-                    })
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "dialog-footer",
-              attrs: { slot: "footer" },
-              slot: "footer"
-            },
-            [
-              _c(
-                "el-button",
-                {
-                  on: {
-                    click: function($event) {
-                      _vm.dialogFormVisible = false
-                    }
-                  }
-                },
-                [_vm._v("取 消")]
-              ),
-              _vm._v(" "),
-              _c(
-                "el-button",
-                {
-                  attrs: { type: "primary" },
-                  on: { click: _vm.updateRetryCount }
-                },
-                [_vm._v("确 定")]
-              )
             ],
             1
-          )
-        ],
+        )
+    ])
+],
         1
       )
-    ],
-    1
-  )
 }
 var staticRenderFns = []
 render._withStripped = true

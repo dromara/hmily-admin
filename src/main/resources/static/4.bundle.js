@@ -145,7 +145,13 @@ var render = function() {
                       _c(
                         "el-menu-item",
                         { attrs: { index: "transactionRecoveryInfo" } },
-                        [_vm._v("事务补偿信息列表")]
+                        [_vm._v("全局事务信息列表")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-menu-item",
+                        { attrs: { index: "participantRecoveryInfo" } },
+                        [_vm._v("分支事务信息列表")]
                       )
                     ],
                     2
