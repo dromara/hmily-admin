@@ -56,7 +56,7 @@ public class HmilyRepositoryController {
     }
 
     @Permission
-    @GetMapping(value = "/listPageHmilyTransaction")
+    @PostMapping(value = "/listPageHmilyTransaction")
     public AjaxResponse listPageHmilyTransaction(@RequestBody final RepositoryQuery recoverQuery) {
         final CommonPager<HmilyTransactionDTO> pager = hmilyRepositoryService.listByPageHmilyTransaction(recoverQuery);
         CommonPager<HmilyTransactionVO>  pagerConvered = new CommonPager<>();
@@ -70,14 +70,14 @@ public class HmilyRepositoryController {
     }
     
     @Permission
-    @GetMapping(value = "/listPageHmilyParticipant")
+    @PostMapping(value = "/listPageHmilyParticipant")
     public AjaxResponse listPageHmilyParticipant(@RequestBody final RepositoryQuery recoverQuery) {
         final CommonPager<HmilyParticipantDTO> pager = hmilyRepositoryService.listByPageHmilyParticipant(recoverQuery);
         CommonPager<HmilyParticipantVO> pagerConvered = ConvertHelper.converParticipantDTOToVO(pager);
         return AjaxResponse.success(pagerConvered);
     }
     
-    @DeleteMapping(value = "/batchRemoveHmilyTransaction")
+    @PostMapping(value = "/batchRemoveHmilyTransaction")
     @Permission
     public AjaxResponse batchRemoveHmilyTransaction(@RequestBody final BatchDTO batchDTO) {
         if(batchDTO.getIds().isEmpty()){
@@ -87,7 +87,7 @@ public class HmilyRepositoryController {
         return AjaxResponse.success(success);
     }
     
-    @DeleteMapping(value = "/batchRemoveHmilyParticipant")
+    @PostMapping(value = "/batchRemoveHmilyParticipant")
     @Permission
     public AjaxResponse batchRemoveHmilyParticipant(@RequestBody final BatchDTO batchDTO) {
         if(batchDTO.getIds().isEmpty()){
@@ -106,6 +106,7 @@ public class HmilyRepositoryController {
         if (hmilyAdminProperties.getRetryMax() < batchDTO.getRetry()) {
             return AjaxResponse.error("The number of retries exceeds the maximum setting, please reset！");
         }
+        batchDTO.setRetry(hmilyAdminProperties.getRetryMax() - batchDTO.getRetry());
         final Boolean success = hmilyRepositoryService.updateHmilyParticipantRetry(batchDTO.getId(), batchDTO.getRetry());
         return AjaxResponse.success(success);
     }

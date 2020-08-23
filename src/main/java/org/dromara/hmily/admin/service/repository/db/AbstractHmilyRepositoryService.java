@@ -241,30 +241,32 @@ public abstract class AbstractHmilyRepositoryService implements HmilyRepositoryS
     
     private StringBuilder fillQueryConditions(final RepositoryQuery query)  {
         StringBuilder queryConditions=new StringBuilder("");
-        if(null != query.getTransId()){
+        if(null != query.getTransId() && StringUtils.isNotBlank(query.getTransId().toString())){
             queryConditions.append(" and trans_id = " + query.getTransId());
         }
-        if(null != query.getAppName()){
+        if(null != query.getAppName() && StringUtils.isNotBlank(query.getAppName())){
             queryConditions.append(" and app_name = '" + query.getAppName() + "'");
         }
-        if(null != query.getTransType()){
+        if(null != query.getTransType() && StringUtils.isNotBlank(query.getTransType())){
             queryConditions.append(" and trans_type = '" + query.getTransType().toUpperCase() + "'");
         }
-        if(null != query.getRetry()){
+        if(null != query.getRetry() && StringUtils.isNotBlank(query.getRetry().toString())){
             queryConditions.append(" and retry = " + query.getRetry());
         }
-        if(null != query.getStatus()){
+        if(null != query.getStatus() && StringUtils.isNotBlank(query.getStatus())){
+            String status = getStatusByEnum(query.getStatus());
             if("RETRYING".equals(query.getStatus())){
-                queryConditions.append(" and status in (2,3) and version > 1 ");
+                queryConditions.append(" and status in (" + status + ") and version > 1 ");
+            }else if("RUNNING".equals(query.getStatus())){
+                queryConditions.append(" and status in (" + status + ") and version = 1 ");
             }else {
-                String status = getStatusByEnum(query.getStatus());
                 queryConditions.append(" and status in (" + status + ")");
             }
         }
-        if(null != query.getCreateTime() ){
+        if(null != query.getCreateTime() && StringUtils.isNotBlank(query.getCreateTime()) ){
             queryConditions.append(" and create_time > " + buildTimeQueryCondition(query.getCreateTime()));
         }
-        if(null != query.getUpdateTime() ){
+        if(null != query.getUpdateTime() && StringUtils.isNotBlank(query.getUpdateTime()) ){
             queryConditions.append(" and update_time < " + buildTimeQueryCondition(query.getUpdateTime()));
         }
         return queryConditions;
@@ -309,7 +311,7 @@ public abstract class AbstractHmilyRepositoryService implements HmilyRepositoryS
                 return o.getStatus();
             }
         }
-            for (HmilyParticipantStatusEnum o : HmilyParticipantStatusEnum.values()){
+        for (HmilyParticipantStatusEnum o : HmilyParticipantStatusEnum.values()){
             if(o.name().equals(status)){
                 return o.getStatus();
             }
