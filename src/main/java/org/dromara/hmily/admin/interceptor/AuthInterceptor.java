@@ -46,7 +46,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 return Boolean.TRUE;
             }
             final boolean login = annotation.isLogin();
-            if (login && !LoginServiceImpl.LOGIN_SUCCESS) {
+            if (login && !LoginServiceImpl.isLoginSuccess()) {
                 request.setAttribute("code", "404");
                 request.setAttribute("msg", "请您先登录！");
                 request.getRequestDispatcher("/").forward(request, response);

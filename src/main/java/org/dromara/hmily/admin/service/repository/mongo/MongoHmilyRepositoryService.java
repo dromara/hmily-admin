@@ -21,24 +21,21 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
-
-import java.net.InetSocketAddress;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.hmily.admin.config.HmilyAdminProperties;
 import org.dromara.hmily.admin.config.HmilyMongoProperties;
+import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
 import org.dromara.hmily.admin.exception.HmilyAdminException;
 import org.dromara.hmily.admin.page.CommonPager;
 import org.dromara.hmily.admin.query.RepositoryQuery;
 import org.dromara.hmily.admin.service.HmilyRepositoryService;
 import org.dromara.hmily.admin.spi.Join;
-import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
-import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
 import org.springframework.data.mongodb.core.MongoClientFactoryBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
+import java.net.InetSocketAddress;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Mongodb impl.
@@ -65,17 +62,7 @@ public class MongoHmilyRepositoryService implements HmilyRepositoryService {
     }
     
     @Override
-    public CommonPager<HmilyTransactionDTO> listByPageHmilyTransaction(final RepositoryQuery query) {
-        return null;
-    }
-    
-    @Override
-    public CommonPager<HmilyParticipantDTO> listByPageHmilyParticipant(final RepositoryQuery query) {
-        return null;
-    }
-    
-    @Override
-    public Boolean batchRemoveHmilyTransaction(final List<Long> transIds) {
+    public CommonPager<HmilyTransactionDTO> listByPage(final RepositoryQuery query) {
         return null;
     }
     
@@ -86,11 +73,6 @@ public class MongoHmilyRepositoryService implements HmilyRepositoryService {
     
     @Override
     public Boolean updateHmilyParticipantRetry(final Long participantIds, final Integer retry) {
-        return null;
-    }
-    
-    @Override
-    public List<Map<String, Object>> queryByTransIds(final List<Long> transIds) {
         return null;
     }
     

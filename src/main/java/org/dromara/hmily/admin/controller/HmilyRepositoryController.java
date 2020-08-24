@@ -25,17 +25,14 @@ import org.dromara.hmily.admin.page.CommonPager;
 import org.dromara.hmily.admin.query.RepositoryQuery;
 import org.dromara.hmily.admin.result.AjaxResponse;
 import org.dromara.hmily.admin.service.HmilyRepositoryService;
-import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
 import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
-import org.dromara.hmily.admin.vo.HmilyParticipantVO;
 import org.dromara.hmily.admin.vo.HmilyTransactionVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * transaction log rest controller.
@@ -44,63 +41,64 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/repository")
 public class HmilyRepositoryController {
+    
+    @Autowired
+    private HmilyAdminProperties hmilyAdminProperties;
 
     private final HmilyRepositoryService hmilyRepositoryService;
     
-    @Autowired
-    HmilyAdminProperties hmilyAdminProperties;
-    
+    /**
+     * HmilyRepositoryController manual assembly hmilyRepositoryService.
+     * */
     @Autowired(required = false)
     public HmilyRepositoryController(final HmilyRepositoryService hmilyRepositoryService) {
         this.hmilyRepositoryService = hmilyRepositoryService;
     }
-
+    
+    /**
+     * Query transactions by page.
+     *
+     * @param recoverQuery recoverQuery
+     * @return {@linkplain AjaxResponse}
+     * */
     @Permission
-    @PostMapping(value = "/listPageHmilyTransaction")
-    public AjaxResponse listPageHmilyTransaction(@RequestBody final RepositoryQuery recoverQuery) {
-        final CommonPager<HmilyTransactionDTO> pager = hmilyRepositoryService.listByPageHmilyTransaction(recoverQuery);
-        CommonPager<HmilyTransactionVO>  pagerConvered = new CommonPager<>();
-        if(null != pager.getDataList()){
-            List<Long> transIds = pager.getDataList().stream().map(HmilyTransactionDTO::getTransId).collect(Collectors.toList());
-            List<Map<String, Object>> numList = hmilyRepositoryService.queryByTransIds(transIds);
-            pagerConvered = ConvertHelper.converTransactionDTOToVO(pager, numList);
+    @PostMapping(value = "/listPage")
+    public AjaxResponse listPage(@RequestBody final RepositoryQuery recoverQuery) {
+        final CommonPager<HmilyTransactionDTO> pager = hmilyRepositoryService.listByPage(recoverQuery);
+        CommonPager<HmilyTransactionVO> pagerConvered = new CommonPager<>();
+        if (null != pager.getDataList()) {
+            pagerConvered = ConvertHelper.converTransactionDTOToVOWithList(pager);
         }
         pagerConvered.setPage(pager.getPage());
         return AjaxResponse.success(pagerConvered);
     }
     
-    @Permission
-    @PostMapping(value = "/listPageHmilyParticipant")
-    public AjaxResponse listPageHmilyParticipant(@RequestBody final RepositoryQuery recoverQuery) {
-        final CommonPager<HmilyParticipantDTO> pager = hmilyRepositoryService.listByPageHmilyParticipant(recoverQuery);
-        CommonPager<HmilyParticipantVO> pagerConvered = ConvertHelper.converParticipantDTOToVO(pager);
-        return AjaxResponse.success(pagerConvered);
-    }
-    
-    @PostMapping(value = "/batchRemoveHmilyTransaction")
-    @Permission
-    public AjaxResponse batchRemoveHmilyTransaction(@RequestBody final BatchDTO batchDTO) {
-        if(batchDTO.getIds().isEmpty()){
-            return AjaxResponse.error("TransIds should not empty");
-        }
-        final Boolean success = hmilyRepositoryService.batchRemoveHmilyTransaction(batchDTO.getIds());
-        return AjaxResponse.success(success);
-    }
-    
+    /**
+     * Delete participants by participantIds.
+     *
+     * @param batchDTO batchDTO
+     * @return {@linkplain AjaxResponse}
+     * */
     @PostMapping(value = "/batchRemoveHmilyParticipant")
     @Permission
     public AjaxResponse batchRemoveHmilyParticipant(@RequestBody final BatchDTO batchDTO) {
-        if(batchDTO.getIds().isEmpty()){
+        if (batchDTO.getIds().isEmpty()) {
             return AjaxResponse.error("ParticipantIds should not empty");
         }
-        final Boolean success = hmilyRepositoryService. batchRemoveHmilyParticipant(batchDTO.getIds());
+        final Boolean success = hmilyRepositoryService.batchRemoveHmilyParticipant(batchDTO.getIds());
         return AjaxResponse.success(success);
     }
-
+    
+    /**
+     * update participant retry by participantId and retry.
+     *
+     * @param batchDTO batchDTO
+     * @return {@linkplain AjaxResponse}
+     * */
     @PostMapping(value = "/updateHmilyParticipantRetry")
     @Permission
     public AjaxResponse updateHmilyParticipantRetry(@RequestBody final BatchDTO batchDTO) {
-        if(null == batchDTO.getId() || null == batchDTO.getRetry()){
+        if (null == batchDTO.getId() || null == batchDTO.getRetry()) {
             return AjaxResponse.error("Info is not enough, please check it");
         }
         if (hmilyAdminProperties.getRetryMax() < batchDTO.getRetry()) {
@@ -110,6 +108,5 @@ public class HmilyRepositoryController {
         final Boolean success = hmilyRepositoryService.updateHmilyParticipantRetry(batchDTO.getId(), batchDTO.getRetry());
         return AjaxResponse.success(success);
     }
-    
 
 }

@@ -34,18 +34,32 @@ import org.springframework.web.bind.annotation.RestController;
 public class HmlyLoginController {
 
     private final LoginService loginService;
-
+    
+    /**
+     * HmlyLoginController manual assembly loginService.
+     * */
     @Autowired
     public HmlyLoginController(final LoginService loginService) {
         this.loginService = loginService;
     }
 
+    /**
+     * login.
+     *
+     * @param userDTO userDTO
+     * @return {@linkplain AjaxResponse}
+     * */
     @PostMapping("/login")
     public AjaxResponse login(@RequestBody final UserDTO userDTO) {
         final Boolean login = loginService.login(userDTO.getUserName(), userDTO.getPassword());
         return AjaxResponse.success(login);
     }
-
+    
+    /**
+     * logout.
+     *
+     * @return {@linkplain AjaxResponse}
+     * */
     @PostMapping("/logout")
     public AjaxResponse logout() {
         return AjaxResponse.success(loginService.logout());

@@ -58,7 +58,12 @@ public class PageParameter implements Serializable {
         this.currentPage = currentPage;
         this.pageSize = pageSize;
     }
-
+    
+    /**
+     * Get current page.
+     *
+     * @return int currentPage.
+     */
     public int getCurrentPage() {
         return currentPage;
     }

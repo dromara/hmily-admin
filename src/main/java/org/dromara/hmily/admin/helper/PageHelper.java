@@ -100,6 +100,13 @@ public class PageHelper {
         return pageSql;
     }
 
+    /**
+     * postgre page sql.
+     *
+     * @param sql sql
+     * @param  page page
+     * @return String
+     * */
     public static StringBuilder buildPageSqlForPostgreSQL(final String sql, final PageParameter page) {
         StringBuilder pageSql = new StringBuilder(100);
         String start = String.valueOf((page.getCurrentPage() - 1) * page.getPageSize());

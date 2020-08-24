@@ -30,7 +30,10 @@ import org.springframework.stereotype.Service;
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
 
-    public static boolean LOGIN_SUCCESS = false;
+    /**
+     * login success.
+     * */
+    private static Boolean loginSuccess = false;
 
     /**
      * logger.
@@ -45,9 +48,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Boolean login(final String userName, final String password) {
-        LOGGER.info( "输入的用户名密码为:{}",  userName + "," + password);
+        LOGGER.info("输入的用户名密码为:{}", userName + "," + password);
         if (userName.equals(this.userName) && password.equals(this.password)) {
-            LOGIN_SUCCESS = true;
+            loginSuccess = true;
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
@@ -55,7 +58,16 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Boolean logout() {
-        LOGIN_SUCCESS = false;
+        loginSuccess = false;
         return Boolean.TRUE;
+    }
+    
+    /**
+     * Get is login or not.
+     *
+     * @return boolean
+     * */
+    public static Boolean isLoginSuccess() {
+        return loginSuccess;
     }
 }

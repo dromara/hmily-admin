@@ -44,37 +44,6 @@ public class MysqlHmilyRepositoryServiceTest {
     
     @Autowired
     private HmilyRepositoryService hmilyRepositoryService;
-
-    @Test
-    public void listByPageHmilyTransaction() {
-        RepositoryQuery query = new RepositoryQuery();
-        PageParameter pageParameter = new PageParameter(1,10);
-        query.setPageParameter(pageParameter);
-        final CommonPager<HmilyTransactionDTO> pager = hmilyRepositoryService.listByPageHmilyTransaction(query);
-        Assert.assertNotNull(pager.getDataList());
-    }
-    
-    @Test
-    public void listByPageHmilyParticipant() {
-        RepositoryQuery query = new RepositoryQuery();
-        query.setTransId(1L);
-        query.setRetry(1);
-        query.setAppName("1");
-        PageParameter pageParameter = new PageParameter(1,10);
-        query.setPageParameter(pageParameter);
-        final CommonPager<HmilyParticipantDTO> pager = hmilyRepositoryService.listByPageHmilyParticipant(query);
-        Assert.assertNotNull(pager.getDataList());
-    }
-    
-    @Test
-    public void batchRemoveHmilyTransaction() {
-        List<Long> list = new LinkedList<>();
-        long transactionId = 1L;
-        long transactionId1 = 2L;
-        list.add(transactionId);
-        list.add(transactionId1);
-        Boolean success = hmilyRepositoryService.batchRemoveHmilyTransaction(list);
-    }
     
     @Test
     public void batchRemoveHmilyParticipant() {
@@ -91,13 +60,5 @@ public class MysqlHmilyRepositoryServiceTest {
         Boolean success = hmilyRepositoryService.updateHmilyParticipantRetry(participantId,retry);
     }
     
-    @Test
-    public void queryByTransId() {
-        List<Long> list = new LinkedList<>();
-        list.add(1L);
-        list.add(2L);
-        list.add(3L);
-        hmilyRepositoryService.queryByTransIds(list);
-    }
 
 }

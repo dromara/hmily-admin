@@ -63,9 +63,15 @@ public enum HmilyRoleEnum {
 
     private final String desc;
     
-    public static HmilyRoleEnum getDescByCode(final int code){
-        for (HmilyRoleEnum o : HmilyRoleEnum.values()){
-            if(code == o.getCode()){
+    /**
+     * HmilyRoleEnum get desc by code.
+     *
+     * @param code code
+     * @return {@linkplain HmilyRoleEnum}
+     * */
+    public static HmilyRoleEnum getDescByCode(final int code) {
+        for (HmilyRoleEnum o : HmilyRoleEnum.values()) {
+            if (code == o.getCode()) {
                 return o;
             }
         }
