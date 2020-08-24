@@ -110,7 +110,11 @@ public final class ConvertHelper {
         hmilyParticipantVO.setVersion(hmilyParticipantDTO.getVersion());
         HmilyParticipantStatusEnum statusEnum = HmilyParticipantStatusEnum.getStatusEnumByStatus(hmilyParticipantDTO.getStatus());
         if(null != statusEnum){
-            hmilyParticipantVO.setStatus(statusEnum.name());
+            if(statusEnum.equals(HmilyParticipantStatusEnum.RUNNING) && hmilyParticipantDTO.getVersion() > 1){
+                hmilyParticipantVO.setStatus(HmilyParticipantStatusEnum.RETRYING.name());
+            }else {
+                hmilyParticipantVO.setStatus(statusEnum.name());
+            }
         }
         HmilyRoleEnum roleEnum = HmilyRoleEnum.getDescByCode(hmilyParticipantDTO.getRole());
         if(null != roleEnum){

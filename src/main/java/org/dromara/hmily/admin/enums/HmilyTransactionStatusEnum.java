@@ -15,7 +15,7 @@ public enum HmilyTransactionStatusEnum {
     /**
      * TCC sucess  with status confirm.
      * */
-    SUCESS("2"),
+    SUCCESS("2"),
     
     /**
      * TCC failure with status cancel.

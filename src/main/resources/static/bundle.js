@@ -13223,6 +13223,11 @@ var transactionRecoveryInfo = function transactionRecoveryInfo(r) {
         return r(__webpack_require__(32));
     }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+var participantRecoveryInfo = function participantRecoveryInfo(r) {
+    return __webpack_require__.e/* require.ensure */(7).then((function () {
+        return r(__webpack_require__(33));
+    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 
 __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 
@@ -13241,8 +13246,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_1_vue
         }, {
             path: '/transactionRecoveryInfo',
             component: transactionRecoveryInfo,
-            meta: ['事务补偿管理', '事务补偿信息列表']
+            meta: ['事务补偿管理', '全局事务信息列表']
         }, {
+            path: '/participantRecoveryInfo',
+            component: participantRecoveryInfo,
+            meta: ['事务补偿管理', '分支事务信息列表']
+        },{
             path: '/adminSet',
             component: adminSet,
             meta: ['设置', '管理员设置']

@@ -4,6 +4,7 @@ import org.dromara.hmily.admin.annotation.Permission;
 import org.dromara.hmily.admin.result.AjaxResponse;
 import org.dromara.hmily.admin.service.ApplicationNameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,6 @@ import java.util.List;
 @RequestMapping("/application")
 public class HmilyApplicationController {
     
-   
     private final ApplicationNameService applicationNameService;
     
     @Autowired
@@ -28,7 +28,7 @@ public class HmilyApplicationController {
     }
     
     @Permission
-    @PostMapping(value = "/listAppName")
+    @GetMapping(value = "/listAppName")
     public AjaxResponse listAppName() {
         final List<String> list = applicationNameService.list();
         return AjaxResponse.success(list);
