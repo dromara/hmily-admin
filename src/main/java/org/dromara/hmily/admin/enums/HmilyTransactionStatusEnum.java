@@ -1,7 +1,7 @@
 package org.dromara.hmily.admin.enums;
 
 /**
- * HmilyTransactionStatusEnum
+ * HmilyTransactionStatusEnum.
  *
  * @author zhangwanjie3
  */
@@ -36,20 +36,25 @@ public enum HmilyTransactionStatusEnum {
     
     /**
      * get status.
+     *
+     * @return a string status
      * */
     public String getStatus() {
         return status;
     }
     
     /**
-     * get HmilyParticipantStatusEnum by status
+     * get HmilyParticipantStatusEnum by status.
+     *
+     * @param status int status
+     * @return {@linkplain HmilyTransactionStatusEnum}
      * */
-    public static HmilyTransactionStatusEnum getStatusEnumByStatus(final Integer status){
-        if(null == status){
+    public static HmilyTransactionStatusEnum getStatusEnumByStatus(final Integer status) {
+        if (null == status) {
             return null;
         }
-        for (HmilyTransactionStatusEnum o: HmilyTransactionStatusEnum.values()){
-            if(o.getStatus().equals(status.toString())){
+        for (HmilyTransactionStatusEnum o: HmilyTransactionStatusEnum.values()) {
+            if (o.getStatus().equals(status.toString())) {
                 return o;
             }
         }

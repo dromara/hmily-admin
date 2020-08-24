@@ -55,8 +55,10 @@ public class RepositoryQuery implements Serializable {
     private String transType;
     
     /**
-     * {@linkplain HmilyTransactionStatusEnum}
-     * {@linkplain HmilyParticipantStatusEnum}
+     * status.
+     *
+     * {@linkplain HmilyTransactionStatusEnum}.
+     * {@linkplain HmilyParticipantStatusEnum}.
      */
     private String status;
     
@@ -66,12 +68,12 @@ public class RepositoryQuery implements Serializable {
     private Integer retry;
     
     /**
-     * createTime
+     * createTime.
      * */
     private String createTime;
     
     /**
-     * updateTime
+     * updateTime.
      * */
     private String updateTime;
 
@@ -79,6 +81,5 @@ public class RepositoryQuery implements Serializable {
      * pageParameter.
      */
     private PageParameter pageParameter;
-
-
+    
 }

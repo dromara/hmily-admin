@@ -1,48 +1,21 @@
 webpackJsonp([5],{
 
-/***/ 116:
+/***/ 118:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(true);
+exports = module.exports = __webpack_require__(5)(true);
 // imports
 
 
 // module
-exports.push([module.i, "\n.allcover[data-v-01efbc38] {\n  position: absolute;\n  top: 0;\n  right: 0;\n}\n.ctt[data-v-01efbc38] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}\n.tb[data-v-01efbc38] {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n}\n.lr[data-v-01efbc38] {\n  position: absolute;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.login_page[data-v-01efbc38] {\n  background-color: #324057;\n}\n.manage_tip[data-v-01efbc38] {\n  position: absolute;\n  width: 100%;\n  top: -100px;\n  left: 0;\n}\n.manage_tip p[data-v-01efbc38] {\n  font-size: 34px;\n  color: #fff;\n}\n.form_contianer[data-v-01efbc38] {\n  width: 320px;\n  height: 210px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  margin-top: -105px;\n  margin-left: -160px;\n  padding: 25px;\n  border-radius: 5px;\n  text-align: center;\n  background-color: #fff;\n}\n.form_contianer .submit_btn[data-v-01efbc38] {\n  width: 100%;\n  font-size: 16px;\n}\n.tip[data-v-01efbc38] {\n  font-size: 12px;\n  color: red;\n}\n.form-fade-enter-active[data-v-01efbc38],\n.form-fade-leave-active[data-v-01efbc38] {\n  transition: all 1s;\n}\n.form-fade-enter[data-v-01efbc38],\n.form-fade-leave-active[data-v-01efbc38] {\n  transform: translate3d(0, -50px, 0);\n  opacity: 0;\n}\n", "", {"version":3,"sources":["E:/parent/happylifeplat-tcc/happylifeplat-tcc-dashboard/src/page/login.vue"],"names":[],"mappings":";AAAA;EACE,mBAAmB;EACnB,OAAO;EACP,SAAS;CACV;AACD;EACE,mBAAmB;EACnB,SAAS;EACT,UAAU;EACV,iCAAiC;CAClC;AACD;EACE,mBAAmB;EACnB,SAAS;EACT,4BAA4B;CAC7B;AACD;EACE,mBAAmB;EACnB,UAAU;EACV,4BAA4B;CAC7B;AACD;EACE,0BAA0B;CAC3B;AACD;EACE,mBAAmB;EACnB,YAAY;EACZ,YAAY;EACZ,QAAQ;CACT;AACD;EACE,gBAAgB;EAChB,YAAY;CACb;AACD;EACE,aAAa;EACb,cAAc;EACd,mBAAmB;EACnB,SAAS;EACT,UAAU;EACV,mBAAmB;EACnB,oBAAoB;EACpB,cAAc;EACd,mBAAmB;EACnB,mBAAmB;EACnB,uBAAuB;CACxB;AACD;EACE,YAAY;EACZ,gBAAgB;CACjB;AACD;EACE,gBAAgB;EAChB,WAAW;CACZ;AACD;;EAEE,mBAAmB;CACpB;AACD;;EAEE,oCAAoC;EACpC,WAAW;CACZ","file":"login.vue","sourcesContent":[".allcover {\n  position: absolute;\n  top: 0;\n  right: 0;\n}\n.ctt {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}\n.tb {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n}\n.lr {\n  position: absolute;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.login_page {\n  background-color: #324057;\n}\n.manage_tip {\n  position: absolute;\n  width: 100%;\n  top: -100px;\n  left: 0;\n}\n.manage_tip p {\n  font-size: 34px;\n  color: #fff;\n}\n.form_contianer {\n  width: 320px;\n  height: 210px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  margin-top: -105px;\n  margin-left: -160px;\n  padding: 25px;\n  border-radius: 5px;\n  text-align: center;\n  background-color: #fff;\n}\n.form_contianer .submit_btn {\n  width: 100%;\n  font-size: 16px;\n}\n.tip {\n  font-size: 12px;\n  color: red;\n}\n.form-fade-enter-active,\n.form-fade-leave-active {\n  transition: all 1s;\n}\n.form-fade-enter,\n.form-fade-leave-active {\n  transform: translate3d(0, -50px, 0);\n  opacity: 0;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.allcover[data-v-1db67ffc] {\n  position: absolute;\n  top: 0;\n  right: 0;\n}\n.ctt[data-v-1db67ffc] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}\n.tb[data-v-1db67ffc] {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n}\n.lr[data-v-1db67ffc] {\n  position: absolute;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.login_page[data-v-1db67ffc] {\n  background-color: #324057;\n}\n.manage_tip[data-v-1db67ffc] {\n  position: absolute;\n  width: 100%;\n  top: -100px;\n  left: 0;\n}\n.manage_tip p[data-v-1db67ffc] {\n  font-size: 34px;\n  color: #fff;\n}\n.form_contianer[data-v-1db67ffc] {\n  width: 320px;\n  height: 210px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  margin-top: -105px;\n  margin-left: -160px;\n  padding: 25px;\n  border-radius: 5px;\n  text-align: center;\n  background-color: #fff;\n}\n.form_contianer .submit_btn[data-v-1db67ffc] {\n  width: 100%;\n  font-size: 16px;\n}\n.tip[data-v-1db67ffc] {\n  font-size: 12px;\n  color: red;\n}\n.form-fade-enter-active[data-v-1db67ffc],\n.form-fade-leave-active[data-v-1db67ffc] {\n  transition: all 1s;\n}\n.form-fade-enter[data-v-1db67ffc],\n.form-fade-leave-active[data-v-1db67ffc] {\n  transform: translate3d(0, -50px, 0);\n  opacity: 0;\n}\n", "", {"version":3,"sources":["E:/workItems/hmily-dashboard/hmily-dashboard/src/page/login.vue"],"names":[],"mappings":";AAAA;EACE,mBAAmB;EACnB,OAAO;EACP,SAAS;CACV;AACD;EACE,mBAAmB;EACnB,SAAS;EACT,UAAU;EACV,iCAAiC;CAClC;AACD;EACE,mBAAmB;EACnB,SAAS;EACT,4BAA4B;CAC7B;AACD;EACE,mBAAmB;EACnB,UAAU;EACV,4BAA4B;CAC7B;AACD;EACE,0BAA0B;CAC3B;AACD;EACE,mBAAmB;EACnB,YAAY;EACZ,YAAY;EACZ,QAAQ;CACT;AACD;EACE,gBAAgB;EAChB,YAAY;CACb;AACD;EACE,aAAa;EACb,cAAc;EACd,mBAAmB;EACnB,SAAS;EACT,UAAU;EACV,mBAAmB;EACnB,oBAAoB;EACpB,cAAc;EACd,mBAAmB;EACnB,mBAAmB;EACnB,uBAAuB;CACxB;AACD;EACE,YAAY;EACZ,gBAAgB;CACjB;AACD;EACE,gBAAgB;EAChB,WAAW;CACZ;AACD;;EAEE,mBAAmB;CACpB;AACD;;EAEE,oCAAoC;EACpC,WAAW;CACZ","file":"login.vue","sourcesContent":[".allcover {\n  position: absolute;\n  top: 0;\n  right: 0;\n}\n.ctt {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}\n.tb {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n}\n.lr {\n  position: absolute;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.login_page {\n  background-color: #324057;\n}\n.manage_tip {\n  position: absolute;\n  width: 100%;\n  top: -100px;\n  left: 0;\n}\n.manage_tip p {\n  font-size: 34px;\n  color: #fff;\n}\n.form_contianer {\n  width: 320px;\n  height: 210px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  margin-top: -105px;\n  margin-left: -160px;\n  padding: 25px;\n  border-radius: 5px;\n  text-align: center;\n  background-color: #fff;\n}\n.form_contianer .submit_btn {\n  width: 100%;\n  font-size: 16px;\n}\n.tip {\n  font-size: 12px;\n  color: red;\n}\n.form-fade-enter-active,\n.form-fade-leave-active {\n  transition: all 1s;\n}\n.form-fade-enter,\n.form-fade-leave-active {\n  transform: translate3d(0, -50px, 0);\n  opacity: 0;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 128:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(116);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(8)("21364a1d", content, false);
-// Hot Module Replacement
-if(true) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept(116, function() {
-     var newContent = __webpack_require__(116);
-     if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 129:
+/***/ 124:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -126,7 +99,34 @@ if(true) {
 
 /***/ }),
 
-/***/ 130:
+/***/ 134:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(118);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(9)("aaf6ad74", content, false, {});
+// Hot Module Replacement
+if(true) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept(118, function() {
+     var newContent = __webpack_require__(118);
+     if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 135:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -214,7 +214,7 @@ var render = function() {
                         attrs: { type: "primary" },
                         on: {
                           click: function($event) {
-                            _vm.submitForm("loginForm")
+                            return _vm.submitForm("loginForm")
                           }
                         }
                       },
@@ -241,59 +241,60 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (true) {
   module.hot.accept()
   if (module.hot.data) {
-    __webpack_require__(3)      .rerender("data-v-01efbc38", esExports)
+    __webpack_require__(4)      .rerender("data-v-1db67ffc", esExports)
   }
 }
 
 /***/ }),
 
-/***/ 30:
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_login_vue__ = __webpack_require__(129);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_01efbc38_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_login_vue__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_login_vue__ = __webpack_require__(124);
+/* empty harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1db67ffc_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_login_vue__ = __webpack_require__(135);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(128)
+  __webpack_require__(134)
 }
-var normalizeComponent = __webpack_require__(7)
+var normalizeComponent = __webpack_require__(8)
 /* script */
+
 
 /* template */
 
 /* template functional */
-  var __vue_template_functional__ = false
+var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-01efbc38"
+var __vue_scopeId__ = "data-v-1db67ffc"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_login_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_01efbc38_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_login_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_login_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1db67ffc_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_login_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "src\\page\\login.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+Component.options.__file = "src/page/login.vue"
 
 /* hot reload */
 if (true) {(function () {
-  var hotAPI = __webpack_require__(3)
+  var hotAPI = __webpack_require__(4)
   hotAPI.install(__webpack_require__(0), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-01efbc38", Component.options)
+    hotAPI.createRecord("data-v-1db67ffc", Component.options)
   } else {
-    hotAPI.reload("data-v-01efbc38", Component.options)
-' + '  }
+    hotAPI.reload("data-v-1db67ffc", Component.options)
+  }
   module.hot.dispose(function (data) {
     disposed = true
   })

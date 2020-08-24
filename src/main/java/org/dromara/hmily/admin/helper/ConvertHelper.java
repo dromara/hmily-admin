@@ -26,10 +26,8 @@ import org.dromara.hmily.admin.page.CommonPager;
 import org.dromara.hmily.admin.vo.HmilyParticipantVO;
 import org.dromara.hmily.admin.vo.HmilyTransactionVO;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ConvertHelper.
@@ -40,62 +38,48 @@ public final class ConvertHelper {
     
     /**
      * conver HmilyTransactionDTO to HmilyTransactionVO.
+     *
+     * @param pager pager.
+     * @return {@linkplain CommonPager HmilyTransactionVO}
      * */
-    public static CommonPager<HmilyTransactionVO> converTransactionDTOToVO(final CommonPager<HmilyTransactionDTO> pager, final List<Map<String, Object>> numList){
+    public static CommonPager<HmilyTransactionVO> converTransactionDTOToVOWithList(final CommonPager<HmilyTransactionDTO> pager) {
         List<HmilyTransactionDTO> transactionDTOS = pager.getDataList();
         CommonPager<HmilyTransactionVO> transactionVOCommonPager = new CommonPager<>();
-        if(null == transactionDTOS){
+        if (null == transactionDTOS) {
             transactionVOCommonPager.setPage(pager.getPage());
             return transactionVOCommonPager;
         }
         List<HmilyTransactionVO> transactionVOS = new LinkedList<>();
-        Map<String, String> participantsNumMap = new LinkedHashMap<>();
-        numList.forEach(
-                o-> participantsNumMap.put(o.get("trans_id").toString(), o.get("count(1)").toString())
-        );
-        transactionDTOS.forEach(o->transactionVOS.add(bulidHmilyTransactionVO(o, participantsNumMap)));
+        transactionDTOS.forEach(o -> transactionVOS.add(bulidHmilyTransactionVOWithList(o)));
         transactionVOCommonPager.setPage(pager.getPage());
         transactionVOCommonPager.setDataList(transactionVOS);
         return transactionVOCommonPager;
     }
-    
-    /**
-     * conver HmilyParticipantDTO to HmilyParticipantVO.
-     * */
-    public static CommonPager<HmilyParticipantVO> converParticipantDTOToVO(final CommonPager<HmilyParticipantDTO> pager){
-        List<HmilyParticipantDTO> participantDTOS = pager.getDataList();
-        CommonPager<HmilyParticipantVO> participantVOCommonPager = new CommonPager<>();
-        if(null == participantDTOS){
-            participantVOCommonPager.setPage(pager.getPage());
-            return participantVOCommonPager;
-        }
-        List<HmilyParticipantVO> participantVOS = new LinkedList<>();
-        participantDTOS.forEach(o->participantVOS.add(bulidHmilyParticipantVO(o)));
-        participantVOCommonPager.setPage(pager.getPage());
-        participantVOCommonPager.setDataList(participantVOS);
-        return participantVOCommonPager;
-    }
-    
-    private static HmilyTransactionVO bulidHmilyTransactionVO(final HmilyTransactionDTO hmilyTransactionDTO, final Map<String, String> participantsNumMap){
+   
+    private static HmilyTransactionVO bulidHmilyTransactionVOWithList(final HmilyTransactionDTO hmilyTransactionDTO) {
         HmilyTransactionVO hmilyTransactionVO = new HmilyTransactionVO();
         hmilyTransactionVO.setTransType(hmilyTransactionDTO.getTransType());
         hmilyTransactionVO.setTransId(hmilyTransactionDTO.getTransId());
         hmilyTransactionVO.setAppName(hmilyTransactionDTO.getAppName());
-        HmilyTransactionStatusEnum  statusEnum = HmilyTransactionStatusEnum.getStatusEnumByStatus(hmilyTransactionDTO.getStatus());
-        if(null != statusEnum){
+        HmilyTransactionStatusEnum statusEnum = HmilyTransactionStatusEnum.getStatusEnumByStatus(hmilyTransactionDTO.getStatus());
+        if (null != statusEnum) {
             hmilyTransactionVO.setStatus(statusEnum.name());
         }
-        if(null != participantsNumMap.get(hmilyTransactionDTO.getTransId().toString())){
-            hmilyTransactionVO.setParticipationsNum(Integer.parseInt(participantsNumMap.get(hmilyTransactionDTO.getTransId().toString())));
-        }else {
+        if (null != hmilyTransactionDTO.getParticipantDTOS()) {
+            List<HmilyParticipantVO> hmilyParticipantVOS = new LinkedList<>();
+            hmilyTransactionDTO.getParticipantDTOS().forEach(o -> hmilyParticipantVOS.add(bulidHmilyParticipantVO(o)));
+            hmilyTransactionVO.setParticipationsNum(hmilyParticipantVOS.size());
+            hmilyTransactionVO.setParticipantVOS(hmilyParticipantVOS);
+        } else {
             hmilyTransactionVO.setParticipationsNum(0);
+            hmilyTransactionVO.setParticipantVOS(null);
         }
         hmilyTransactionVO.setCreateTime(hmilyTransactionDTO.getCreateTime());
         hmilyTransactionVO.setUpdateTime(hmilyTransactionDTO.getUpdateTime());
         return hmilyTransactionVO;
     }
     
-    private static HmilyParticipantVO bulidHmilyParticipantVO(final HmilyParticipantDTO hmilyParticipantDTO){
+    private static HmilyParticipantVO bulidHmilyParticipantVO(final HmilyParticipantDTO hmilyParticipantDTO) {
         HmilyParticipantVO hmilyParticipantVO = new HmilyParticipantVO();
         hmilyParticipantVO.setRetry(hmilyParticipantDTO.getRetry());
         hmilyParticipantVO.setParticipantRefId(hmilyParticipantDTO.getParticipantRefId());
@@ -109,15 +93,15 @@ public final class ConvertHelper {
         hmilyParticipantVO.setTransType(hmilyParticipantDTO.getTransType());
         hmilyParticipantVO.setVersion(hmilyParticipantDTO.getVersion());
         HmilyParticipantStatusEnum statusEnum = HmilyParticipantStatusEnum.getStatusEnumByStatus(hmilyParticipantDTO.getStatus());
-        if(null != statusEnum){
-            if(statusEnum.equals(HmilyParticipantStatusEnum.RUNNING) && hmilyParticipantDTO.getVersion() > 1){
+        if (null != statusEnum) {
+            if (statusEnum.equals(HmilyParticipantStatusEnum.RUNNING) && hmilyParticipantDTO.getVersion() > 1) {
                 hmilyParticipantVO.setStatus(HmilyParticipantStatusEnum.RETRYING.name());
-            }else {
+            } else {
                 hmilyParticipantVO.setStatus(statusEnum.name());
             }
         }
         HmilyRoleEnum roleEnum = HmilyRoleEnum.getDescByCode(hmilyParticipantDTO.getRole());
-        if(null != roleEnum){
+        if (null != roleEnum) {
             hmilyParticipantVO.setRole(roleEnum.getDesc());
         }
         hmilyParticipantVO.setCreateTime(hmilyParticipantDTO.getCreateTime());

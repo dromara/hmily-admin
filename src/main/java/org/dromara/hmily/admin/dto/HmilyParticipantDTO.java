@@ -21,7 +21,7 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * HmilyParticipantDTO
+ * HmilyParticipantDTO.
  *
  * @author xiaoyu(Myth)
  */

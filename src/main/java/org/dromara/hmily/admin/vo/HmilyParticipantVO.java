@@ -3,7 +3,7 @@ package org.dromara.hmily.admin.vo;
 import lombok.Data;
 
 /**
- * HmilyParticipantVO
+ * HmilyParticipantVO.
  *
  * @author zhangwanjie3
  */

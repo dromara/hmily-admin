@@ -2,8 +2,10 @@ package org.dromara.hmily.admin.vo;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
- * HmilyTransactionVO
+ * HmilyTransactionVO.
  *
  * @author zhangwanjie3
  */
@@ -44,4 +46,9 @@ public class HmilyTransactionVO {
      * update time.
      * */
     private String updateTime;
+    
+    /**
+     *  participants list.
+     * */
+    private List<HmilyParticipantVO> participantVOS;
 }

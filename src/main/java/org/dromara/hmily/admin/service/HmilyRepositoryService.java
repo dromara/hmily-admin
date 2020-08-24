@@ -18,12 +18,10 @@
 package org.dromara.hmily.admin.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.dromara.hmily.admin.config.HmilyAdminProperties;
 import org.dromara.hmily.admin.page.CommonPager;
 import org.dromara.hmily.admin.query.RepositoryQuery;
-import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
 import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
 
 /**
@@ -44,23 +42,7 @@ public interface HmilyRepositoryService {
      * @param query {@linkplain RepositoryQuery}
      * @return CommonPager TransactionRecoverVO
      */
-    CommonPager<HmilyTransactionDTO> listByPageHmilyTransaction(RepositoryQuery query);
-    
-    /**
-     * acquired {@linkplain HmilyParticipantDTO} by page.
-     *
-     * @param query {@linkplain RepositoryQuery}
-     * @return CommonPager HmilyParticipantVO
-     */
-    CommonPager<HmilyParticipantDTO> listByPageHmilyParticipant(RepositoryQuery query);
-    
-    /**
-     * Batch remove hmily transaction boolean.
-     *
-     * @param transIds the trans ids
-     * @return the boolean
-     */
-    Boolean batchRemoveHmilyTransaction(List<Long> transIds);
+    CommonPager<HmilyTransactionDTO> listByPage(RepositoryQuery query);
     
     /**
      * Batch remove hmily participant boolean.
@@ -78,13 +60,5 @@ public interface HmilyRepositoryService {
      * @return the boolean
      */
     Boolean updateHmilyParticipantRetry(Long participantId, Integer retry);
-    
-    /**
-     * query count participants by transIds.
-     *
-     * @param transIds the transaction ids
-     * @return the boolean
-     */
-    List<Map<String, Object>> queryByTransIds(List<Long> transIds);
     
 }

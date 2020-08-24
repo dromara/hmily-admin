@@ -69,4 +69,9 @@ public class HmilyTransactionDTO implements Serializable {
      * */
     private String updateTime;
     
+    /**
+     * participant list.
+     * */
+    private List<HmilyParticipantDTO> participantDTOS;
+    
 }
