@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author xiaoyu(Myth)
  */
 @RestController
-public class HmlyLoginController {
+public class HmilyLoginController {
 
     private final LoginService loginService;
     
@@ -39,7 +39,7 @@ public class HmlyLoginController {
      * HmlyLoginController manual assembly loginService.
      * */
     @Autowired
-    public HmlyLoginController(final LoginService loginService) {
+    public HmilyLoginController(final LoginService loginService) {
         this.loginService = loginService;
     }
 
