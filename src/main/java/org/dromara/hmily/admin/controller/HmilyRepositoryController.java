@@ -104,7 +104,6 @@ public class HmilyRepositoryController {
         if (hmilyAdminProperties.getRetryMax() < batchDTO.getRetry()) {
             return AjaxResponse.error("The number of retries exceeds the maximum setting, please reset！");
         }
-        batchDTO.setRetry(hmilyAdminProperties.getRetryMax() - batchDTO.getRetry());
         final Boolean success = hmilyRepositoryService.updateHmilyParticipantRetry(batchDTO.getId(), batchDTO.getRetry());
         return AjaxResponse.success(success);
     }
