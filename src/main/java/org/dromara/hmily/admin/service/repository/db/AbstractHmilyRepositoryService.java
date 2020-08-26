@@ -73,6 +73,12 @@ public abstract class AbstractHmilyRepositoryService implements HmilyRepositoryS
     private static final String UPDATE_HMILY_PARTICIPANT_RETYR = "update hmily_transaction_participant set retry = ? where participant_id = ?";
     
     /**
+     * The constant UPDATE_HMILY_PARTICIPANT_STATUS.
+     */
+    private static final String UPDATE_HMILY_PARTICIPANT_STATUS = "update hmily_transaction_participant set status = ? where participant_id = ?";
+    
+    
+    /**
      * Bulid  query sql for HmilyTransaction by different database.
      *
      * @param sql sql
@@ -161,8 +167,12 @@ public abstract class AbstractHmilyRepositoryService implements HmilyRepositoryS
         if (null == retry || null == participantId) {
             return Boolean.FALSE;
         }
-        String updateSql = UPDATE_HMILY_PARTICIPANT_RETYR.replaceFirst("\\?", retry.toString()).replaceFirst("\\?", participantId.toString());
-        jdbcTemplate.execute(updateSql);
+        String updateRetry = UPDATE_HMILY_PARTICIPANT_RETYR.replaceFirst("\\?", retry.toString()).replaceFirst("\\?", participantId.toString());
+        jdbcTemplate.execute(updateRetry);
+        StringBuilder updateStatus = new StringBuilder();
+        updateStatus.append(UPDATE_HMILY_PARTICIPANT_STATUS.replaceFirst("\\?", "0").replaceFirst("\\?", participantId.toString()));
+        updateStatus.append(" and status = " + HmilyParticipantStatusEnum.RETRY_EXCEED.getStatus());
+        jdbcTemplate.execute(updateStatus.toString());
         return Boolean.TRUE;
     }
     
