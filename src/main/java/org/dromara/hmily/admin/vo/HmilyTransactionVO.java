@@ -15,7 +15,7 @@ public class HmilyTransactionVO {
     /**
      * transaction id.
      * */
-    private Long transId;
+    private String transId;
     
     /**
      * app name.
