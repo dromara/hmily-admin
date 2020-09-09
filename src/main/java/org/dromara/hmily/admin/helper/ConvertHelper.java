@@ -59,7 +59,9 @@ public final class ConvertHelper {
     private static HmilyTransactionVO bulidHmilyTransactionVOWithList(final HmilyTransactionDTO hmilyTransactionDTO) {
         HmilyTransactionVO hmilyTransactionVO = new HmilyTransactionVO();
         hmilyTransactionVO.setTransType(hmilyTransactionDTO.getTransType());
-        hmilyTransactionVO.setTransId(hmilyTransactionDTO.getTransId());
+        if (null != hmilyTransactionDTO.getTransId()) {
+            hmilyTransactionVO.setTransId(hmilyTransactionDTO.getTransId().toString());
+        }
         hmilyTransactionVO.setAppName(hmilyTransactionDTO.getAppName());
         HmilyTransactionStatusEnum statusEnum = HmilyTransactionStatusEnum.getStatusEnumByStatus(hmilyTransactionDTO.getStatus());
         if (null != statusEnum) {
@@ -82,14 +84,20 @@ public final class ConvertHelper {
     private static HmilyParticipantVO bulidHmilyParticipantVO(final HmilyParticipantDTO hmilyParticipantDTO) {
         HmilyParticipantVO hmilyParticipantVO = new HmilyParticipantVO();
         hmilyParticipantVO.setRetry(hmilyParticipantDTO.getRetry());
-        hmilyParticipantVO.setParticipantRefId(hmilyParticipantDTO.getParticipantRefId());
-        hmilyParticipantVO.setParticipantId(hmilyParticipantDTO.getParticipantId());
+        if (null != hmilyParticipantDTO.getParticipantRefId()) {
+            hmilyParticipantVO.setParticipantRefId(hmilyParticipantDTO.getParticipantRefId().toString());
+        }
+        if (null != hmilyParticipantDTO.getParticipantId()) {
+            hmilyParticipantVO.setParticipantId(hmilyParticipantDTO.getParticipantId().toString());
+        }
+        if (null != hmilyParticipantDTO.getTransId()) {
+            hmilyParticipantVO.setTransId(hmilyParticipantDTO.getTransId().toString());
+        }
         hmilyParticipantVO.setTargetMethod(hmilyParticipantDTO.getTargetMethod());
         hmilyParticipantVO.setTargetClass(hmilyParticipantDTO.getTargetClass());
         hmilyParticipantVO.setConfirmMethod(hmilyParticipantDTO.getConfirmMethod());
         hmilyParticipantVO.setCancelMethod(hmilyParticipantDTO.getCancelMethod());
         hmilyParticipantVO.setAppName(hmilyParticipantDTO.getAppName());
-        hmilyParticipantVO.setTransId(hmilyParticipantDTO.getTransId());
         hmilyParticipantVO.setTransType(hmilyParticipantDTO.getTransType());
         hmilyParticipantVO.setVersion(hmilyParticipantDTO.getVersion());
         HmilyParticipantStatusEnum statusEnum = HmilyParticipantStatusEnum.getStatusEnumByStatus(hmilyParticipantDTO.getStatus());

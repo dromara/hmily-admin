@@ -12,17 +12,17 @@ public class HmilyParticipantVO {
     /**
      * participant id.
      */
-    private Long participantId;
+    private String participantId;
     
     /**
      * participant ref id.
      */
-    private Long participantRefId;
+    private String participantRefId;
     
     /**
      * transaction id.
      */
-    private Long transId;
+    private String transId;
     
     /**
      * trans type.
