@@ -19,9 +19,8 @@ package org.dromara.hmily.admin.helper;
 
 import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
 import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
-import org.dromara.hmily.admin.enums.HmilyParticipantStatusEnum;
+import org.dromara.hmily.admin.enums.HmilyActionEnum;
 import org.dromara.hmily.admin.enums.HmilyRoleEnum;
-import org.dromara.hmily.admin.enums.HmilyTransactionStatusEnum;
 import org.dromara.hmily.admin.page.CommonPager;
 import org.dromara.hmily.admin.vo.HmilyParticipantVO;
 import org.dromara.hmily.admin.vo.HmilyTransactionVO;
@@ -63,10 +62,7 @@ public final class ConvertHelper {
             hmilyTransactionVO.setTransId(hmilyTransactionDTO.getTransId().toString());
         }
         hmilyTransactionVO.setAppName(hmilyTransactionDTO.getAppName());
-        HmilyTransactionStatusEnum statusEnum = HmilyTransactionStatusEnum.getStatusEnumByStatus(hmilyTransactionDTO.getStatus());
-        if (null != statusEnum) {
-            hmilyTransactionVO.setStatus(statusEnum.name());
-        }
+        hmilyTransactionVO.setStatus(HmilyActionEnum.acquireByCode(hmilyTransactionDTO.getStatus()).getDesc());
         if (null != hmilyTransactionDTO.getParticipantDTOS()) {
             List<HmilyParticipantVO> hmilyParticipantVOS = new LinkedList<>();
             hmilyTransactionDTO.getParticipantDTOS().forEach(o -> hmilyParticipantVOS.add(bulidHmilyParticipantVO(o)));
@@ -100,14 +96,7 @@ public final class ConvertHelper {
         hmilyParticipantVO.setAppName(hmilyParticipantDTO.getAppName());
         hmilyParticipantVO.setTransType(hmilyParticipantDTO.getTransType());
         hmilyParticipantVO.setVersion(hmilyParticipantDTO.getVersion());
-        HmilyParticipantStatusEnum statusEnum = HmilyParticipantStatusEnum.getStatusEnumByStatus(hmilyParticipantDTO.getStatus());
-        if (null != statusEnum) {
-            if (statusEnum.equals(HmilyParticipantStatusEnum.RUNNING) && hmilyParticipantDTO.getVersion() > 1) {
-                hmilyParticipantVO.setStatus(HmilyParticipantStatusEnum.RETRYING.name());
-            } else {
-                hmilyParticipantVO.setStatus(statusEnum.name());
-            }
-        }
+        hmilyParticipantVO.setStatus(HmilyActionEnum.acquireByCode(hmilyParticipantDTO.getStatus()).getDesc());
         HmilyRoleEnum roleEnum = HmilyRoleEnum.getDescByCode(hmilyParticipantDTO.getRole());
         if (null != roleEnum) {
             hmilyParticipantVO.setRole(roleEnum.getDesc());

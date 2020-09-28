@@ -54,4 +54,9 @@ public class FileHmilyRepositoryService implements HmilyRepositoryService {
         return null;
     }
     
+    @Override
+    public StringBuilder getCompensationInfo(final Long participantId) {
+        return null;
+    }
+    
 }

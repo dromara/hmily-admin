@@ -24,8 +24,8 @@ import org.dromara.hmily.admin.config.HmilyAdminProperties;
 import org.dromara.hmily.admin.config.HmilyDatabaseProperties;
 import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
 import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
-import org.dromara.hmily.admin.enums.HmilyParticipantStatusEnum;
-import org.dromara.hmily.admin.enums.HmilyTransactionStatusEnum;
+import org.dromara.hmily.admin.enums.HmilyActionEnum;
+import org.dromara.hmily.admin.helper.ByteAndHexadecimalHelper;
 import org.dromara.hmily.admin.helper.PageHelper;
 import org.dromara.hmily.admin.page.CommonPager;
 import org.dromara.hmily.admin.page.PageParameter;
@@ -54,8 +54,8 @@ public abstract class AbstractHmilyRepositoryService implements HmilyRepositoryS
     /**
      * The constant SELECTOR_HMILY_PARTICIPANT_COMMON.
      */
-    private static final String SELECTOR_HMILY_PARTICIPANT_COMMON = "select participant_id, participant_ref_id, trans_id, trans_type, status, app_name,"
-            + "role, retry, target_class, target_method, confirm_method, cancel_method, confirm_invocation, cancel_invocation, version, update_time, create_time from hmily_transaction_participant ";
+    private static final String SELECT_HMILY_PARTICIPANT_COMMON = "select participant_id, participant_ref_id, trans_id, trans_type, status, app_name,"
+            + "role, retry, target_class, target_method, confirm_method, cancel_method, version, update_time, create_time from hmily_transaction_participant ";
     
     /**
      * The constant SELECT_COUNT_HMILY_TRANSACTION.
@@ -77,6 +77,11 @@ public abstract class AbstractHmilyRepositoryService implements HmilyRepositoryS
      */
     private static final String UPDATE_HMILY_PARTICIPANT_STATUS = "update hmily_transaction_participant set status = ? where participant_id = ?";
     
+    /**
+     * The constant SELECTOR_HMILY_PARTICIPANT_COMMON_WITH_INVOCATION.
+     */
+    private static final String SELECT_HMILY_PARTICIPANT_COMMON_WITH_INVOCATION = "select participant_id, participant_ref_id, trans_id, trans_type, status, app_name,"
+            + "role, retry, target_class, target_method, confirm_method, cancel_method, confirm_invocation, cancel_invocation, version, update_time, create_time from hmily_transaction_participant ";
     
     /**
      * Bulid  query sql for HmilyTransaction by different database.
@@ -129,7 +134,7 @@ public abstract class AbstractHmilyRepositoryService implements HmilyRepositoryS
         if (!mapList.isEmpty()) {
             pager.setDataList(mapList.stream().map(this::buildTransactionByMap).collect(Collectors.toList()));
             pager.getDataList().forEach(o -> {
-                String queryParticipants = SELECTOR_HMILY_PARTICIPANT_COMMON + "where trans_id = " + o.getTransId();
+                String queryParticipants = SELECT_HMILY_PARTICIPANT_COMMON + "where trans_id = " + o.getTransId();
                 List<Map<String, Object>> participantsMapList = jdbcTemplate.queryForList(queryParticipants);
                 if (!participantsMapList.isEmpty()) {
                     o.setParticipantDTOS(participantsMapList.stream().map(this::buildParticipantByMap).collect(Collectors.toList()));
@@ -170,10 +175,39 @@ public abstract class AbstractHmilyRepositoryService implements HmilyRepositoryS
         String updateRetry = UPDATE_HMILY_PARTICIPANT_RETYR.replaceFirst("\\?", retry.toString()).replaceFirst("\\?", participantId.toString());
         jdbcTemplate.execute(updateRetry);
         StringBuilder updateStatus = new StringBuilder();
-        updateStatus.append(UPDATE_HMILY_PARTICIPANT_STATUS.replaceFirst("\\?", "0").replaceFirst("\\?", participantId.toString()));
-        updateStatus.append(" and status = " + HmilyParticipantStatusEnum.RETRY_EXCEED.getStatus());
+        updateStatus.append(UPDATE_HMILY_PARTICIPANT_STATUS.replaceFirst("\\?", String.valueOf(HmilyActionEnum.PRE_TRY.getCode())).replaceFirst("\\?", participantId.toString()));
+        updateStatus.append(" and status = " + HmilyActionEnum.DEATH.getCode());
         jdbcTemplate.execute(updateStatus.toString());
         return Boolean.TRUE;
+    }
+    
+    @Override
+    public StringBuilder getCompensationInfo(final Long participantId) {
+        StringBuilder compensationInfo = new StringBuilder();
+        StringBuilder querySql = new StringBuilder();
+        querySql.append(SELECT_HMILY_PARTICIPANT_COMMON_WITH_INVOCATION);
+        querySql.append(" where participant_id = " + participantId);
+        Map<String, Object> map = jdbcTemplate.queryForMap(querySql.toString());
+        if (map.isEmpty()) {
+            return compensationInfo.append("No such data is stored in the repository");
+        }
+        HmilyParticipantDTO hmilyParticipantDTO = buildParticipantByMap(map);
+        StringBuilder queryTransSql = new StringBuilder();
+        queryTransSql.append(SELECT_HMILY_TRANSACTION_COMMON);
+        queryTransSql.append(" where trans_id = " + hmilyParticipantDTO.getTransId());
+        Map<String, Object> hmilyTransactionDTOMap = jdbcTemplate.queryForMap(queryTransSql.toString());
+        HmilyTransactionDTO hmilyTransactionDTO = buildTransactionByMap(hmilyTransactionDTOMap);
+        if (null == hmilyTransactionDTO
+                || hmilyTransactionDTO.getStatus() == HmilyActionEnum.CANCELING.getCode()) {
+            compensationInfo.append("invocation: { " + hmilyParticipantDTO.getCancelHmilyInvocation() + " },");
+            compensationInfo.append("method: { " + hmilyParticipantDTO.getCancelMethod() + " }");
+        } else if (hmilyTransactionDTO.getStatus() == HmilyActionEnum.CONFIRMING.getCode()) {
+            compensationInfo.append("invocation: { " + hmilyParticipantDTO.getConfirmHmilyInvocation() + " }");
+            compensationInfo.append("method: { " + hmilyParticipantDTO.getConfirmMethod() + " }");
+        } else {
+            compensationInfo.append("No manual compensation is required for global transaction execution");
+        }
+        return compensationInfo;
     }
     
     private String bulidQuerySqlHmilyTransaction(final RepositoryQuery query) {
@@ -200,14 +234,7 @@ public abstract class AbstractHmilyRepositoryService implements HmilyRepositoryS
             queryConditions.append(" and retry = " + query.getRetry());
         }
         if (null != query.getStatus() && StringUtils.isNotBlank(query.getStatus())) {
-            String status = getStatusByEnum(query.getStatus());
-            if ("RETRYING".equals(query.getStatus())) {
-                queryConditions.append(" and status in (" + status + ") and version > 1 ");
-            } else if ("RUNNING".equals(query.getStatus())) {
-                queryConditions.append(" and status in (" + status + ") and version = 1 ");
-            } else {
-                queryConditions.append(" and status in (" + status + ")");
-            }
+            queryConditions.append(" and status = " + HmilyActionEnum.valueOf(query.getStatus()).getCode());
         }
         if (null != query.getCreateTime() && StringUtils.isNotBlank(query.getCreateTime())) {
             queryConditions.append(" and create_time > " + buildTimeQueryCondition(query.getCreateTime()));
@@ -243,24 +270,20 @@ public abstract class AbstractHmilyRepositoryService implements HmilyRepositoryS
         vo.setConfirmMethod((String) map.get("confirm_method"));
         vo.setTargetClass((String) map.get("target_class"));
         vo.setTargetMethod((String) map.get("target_class"));
+        if (Objects.nonNull(map.get("confirm_invocation"))) {
+            byte[] confirmInvocation = (byte[]) map.get("confirm_invocation");
+            String confirmHmilyInvocation = ByteAndHexadecimalHelper.byte2Hex(confirmInvocation);
+            vo.setConfirmHmilyInvocation(confirmHmilyInvocation);
+        }
+        if (Objects.nonNull(map.get("cancel_invocation"))) {
+            byte[] cancelInvocation = (byte[]) map.get("cancel_invocation");
+            String cancelHmilyInvocation = ByteAndHexadecimalHelper.byte2Hex(cancelInvocation);
+            vo.setCancelHmilyInvocation(cancelHmilyInvocation);
+        }
         vo.setRole((Integer) map.get("role"));
         vo.setRetry((Integer) map.get("retry"));
         vo.setParticipantId((Long) map.get("participant_id"));
         vo.setParticipantRefId((Long) map.get("participant_ref_id"));
         return vo;
-    }
-    
-    private String getStatusByEnum(final String status) {
-        for (HmilyTransactionStatusEnum o : HmilyTransactionStatusEnum.values()) {
-            if (o.name().equals(status)) {
-                return o.getStatus();
-            }
-        }
-        for (HmilyParticipantStatusEnum o : HmilyParticipantStatusEnum.values()) {
-            if (o.name().equals(status)) {
-                return o.getStatus();
-            }
-        }
-        return "-1";
     }
 }

@@ -18,9 +18,8 @@
 package org.dromara.hmily.admin.query;
 
 import lombok.Data;
-import org.dromara.hmily.admin.enums.HmilyTransactionStatusEnum;
-import org.dromara.hmily.admin.enums.HmilyParticipantStatusEnum;
 import org.dromara.hmily.admin.page.PageParameter;
+import org.dromara.hmily.admin.enums.HmilyActionEnum;
 
 import java.io.Serializable;
 
@@ -57,8 +56,7 @@ public class RepositoryQuery implements Serializable {
     /**
      * status.
      *
-     * {@linkplain HmilyTransactionStatusEnum}.
-     * {@linkplain HmilyParticipantStatusEnum}.
+     * {@linkplain HmilyActionEnum}.
      */
     private String status;
     
