@@ -17,13 +17,7 @@
 
 package org.dromara.hmily.admin.service.repository;
 
-import org.dromara.hmily.admin.page.CommonPager;
-import org.dromara.hmily.admin.page.PageParameter;
-import org.dromara.hmily.admin.query.RepositoryQuery;
 import org.dromara.hmily.admin.service.HmilyRepositoryService;
-import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
-import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +34,7 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class MysqlHmilyRepositoryServiceTest {
+public class MongoHmilyRepositoryServiceTest {
     
     @Autowired
     private HmilyRepositoryService hmilyRepositoryService;
@@ -55,14 +49,14 @@ public class MysqlHmilyRepositoryServiceTest {
     
     @Test
     public void updateHmilyParticipantRetry() {
-        long participantId = 1L;
-        Integer retry = 1;
+        long participantId = 4753590803514232832L;
+        Integer retry = 5;
         Boolean success = hmilyRepositoryService.updateHmilyParticipantRetry(participantId,retry);
     }
     
     @Test
     public void getCompensationInfo() {
-        long participantId = 4671049731190865920L;
+        long participantId = 4753590803514232832L;
         StringBuilder stringBuilder = hmilyRepositoryService.getCompensationInfo(participantId);
         System.out.println(stringBuilder.toString());
     }

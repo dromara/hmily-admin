@@ -74,6 +74,11 @@ public class ZookeeperHmilyRepositoryService implements HmilyRepositoryService {
         return null;
     }
     
+    @Override
+    public StringBuilder getCompensationInfo(final Long participantId) {
+        return null;
+    }
+    
     private void connect(final HmilyZookeeperProperties config) {
         try {
             zooKeeper = new ZooKeeper(config.getHost(), config.getSessionTimeOut(), watchedEvent -> {

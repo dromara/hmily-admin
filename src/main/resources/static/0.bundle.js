@@ -584,7 +584,7 @@ module.exports = function (it) {
 /* harmony default export */ __webpack_exports__["a"] = ({
     data: function data() {
         return {
-            baseUrl: document.getElementById('serverIpAddress').href
+            baseUrl: document.getElementById("httpPath").innerHTML
         };
     },
     created: function created() {},
@@ -3144,7 +3144,19 @@ exports.push([module.i, "\n.allcover {\n  position: absolute;\n  top: 0;\n  righ
             count: 0,
             res: null,
             options: [],
-            statusLists: ["RUN", "SUCCESS", "FAILURE"],
+            statusList: [{
+                label: '开始执行try',
+                value: 'PRE_TRY'
+            }, {
+                label: 'confirm阶段',
+                value: 'CONFIRMING'
+            }, {
+                label: 'cancel阶段',
+                value: 'CANCELING'
+            }, {
+                label: '删除状态',
+                value: 'DELETE'
+            }],
             typeLists: ["TCC", "AT"],
             selected: "",
             retryCount: '',
@@ -3163,7 +3175,7 @@ exports.push([module.i, "\n.allcover {\n  position: absolute;\n  top: 0;\n  righ
             },
             formLabelWidth: '120px',
             currentRow: null,
-            baseUrl: document.getElementById('serverIpAddress').href
+            baseUrl: document.getElementById("httpPath").innerHTML
         };
     },
 
@@ -3171,10 +3183,9 @@ exports.push([module.i, "\n.allcover {\n  position: absolute;\n  top: 0;\n  righ
         ElButton: __WEBPACK_IMPORTED_MODULE_2__node_modules_element_ui_packages_button_src_button_vue__["a" /* default */],
         headTop: __WEBPACK_IMPORTED_MODULE_1__components_headTop__["a" /* default */]
     },
-    created: function created() {
+    /*created: function created() {
         var _this = this;
-
-        this.$http.get(this.baseUrl + '/application/listAppName', {}).then(function (response) {
+         this.$http.get(this.baseUrl + '/application/listAppName', {}).then(function (response) {
             if (response.body.code == 200 && response.body.data != null) {
                 _this.options = response.body.data;
                 _this.selected = _this.options[0];
@@ -3191,11 +3202,42 @@ exports.push([module.i, "\n.allcover {\n  position: absolute;\n  top: 0;\n  righ
                 message: response
             });
         });
-    },
+    },*/
     methods: {
         editClicked: function editClicked(row) {
             this.dialogFormVisible = true;
             this.currentRow = row;
+        },
+        compensationClicked: function compensationClicked(row) {
+            var _this = this;
+
+            this.currentRow = row;
+            this.$http.post(this.baseUrl + '/repository/compensationInfo', {
+                "id": this.currentRow.participantId
+            }).then(function (response) {
+                if (response.body.code == 200) {
+                    var h = _this.$createElement;
+                    _this.$msgbox({
+                        title: '补偿信息',
+                        message: h('div', {
+                            style: {
+                                width: '100%',
+                                wordBreak: 'break-all'
+                            }
+                        }, response.body.data)
+                    });
+                } else {
+                    _this.$message({
+                        type: 'error',
+                        message: response.body.message
+                    });
+                }
+            }, function (response) {
+                _this.$message({
+                    type: 'error',
+                    message: response
+                });
+            });
         },
         handleChange: function handleChange(selectedRow, rowId) {
             console.log(selectedRow, rowId);
@@ -4157,26 +4199,16 @@ var render = function() {
                 "div",
                 { staticStyle: { "margin-left": "2%" } },
                 [
-                  _c(
-                    "el-select",
-                    {
-                      attrs: { placeholder: "请选择应用名" },
-                      model: {
-                        value: _vm.selected,
-                        callback: function($$v) {
-                          _vm.selected = $$v
-                        },
-                        expression: "selected"
-                      }
-                    },
-                    _vm._l(_vm.options, function(x) {
-                      return _c("el-option", {
-                        key: x,
-                        attrs: { label: x, value: x }
-                      })
-                    }),
-                    1
-                  )
+                  _c("el-input", {
+                    attrs: { placeholder: "请输入应用名" },
+                    model: {
+                      value: _vm.selected,
+                      callback: function($$v) {
+                        _vm.selected = $$v
+                      },
+                      expression: "selected"
+                    }
+                  })
                 ],
                 1
               ),
@@ -4225,10 +4257,10 @@ var render = function() {
                         expression: "status"
                       }
                     },
-                    _vm._l(_vm.statusLists, function(x) {
+                    _vm._l(_vm.statusList, function(option) {
                       return _c("el-option", {
-                        key: x,
-                        attrs: { label: x, value: x }
+                        key: option.value,
+                        attrs: { value: option.value, label: option.label }
                       })
                     }),
                     1
@@ -4393,6 +4425,24 @@ var render = function() {
                                                 }
                                               },
                                               [_vm._v("编辑")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "el-button",
+                                              {
+                                                attrs: {
+                                                  type: "text",
+                                                  size: "small"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.compensationClicked(
+                                                      scope.row
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("补偿")]
                                             )
                                           ]
                                         }
@@ -4652,6 +4702,15 @@ var render = function() {
                   property: "transType",
                   align: "center",
                   label: "模式类型"
+                }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: {
+                  "min-width": "120",
+                  property: "appName",
+                  align: "center",
+                  label: "发起者"
                 }
               }),
               _vm._v(" "),

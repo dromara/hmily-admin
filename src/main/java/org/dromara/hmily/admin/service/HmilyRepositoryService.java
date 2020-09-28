@@ -61,4 +61,12 @@ public interface HmilyRepositoryService {
      */
     Boolean updateHmilyParticipantRetry(Long participantId, Integer retry);
     
+    /**
+     * getCompensationInfo by participantId.
+     *
+     * @param participantId participantId.
+     * @return the string
+     */
+    StringBuilder getCompensationInfo(Long participantId);
+    
 }

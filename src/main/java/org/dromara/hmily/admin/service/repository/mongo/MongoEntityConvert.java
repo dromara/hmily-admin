@@ -2,12 +2,14 @@ package org.dromara.hmily.admin.service.repository.mongo;
 
 import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
 import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
+import org.dromara.hmily.admin.helper.ByteAndHexadecimalHelper;
 import org.dromara.hmily.admin.service.repository.mongo.entity.ParticipantMongoEntity;
 import org.dromara.hmily.admin.service.repository.mongo.entity.TransactionMongoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 /**
  * mongo entity convert.
@@ -37,6 +39,20 @@ public class MongoEntityConvert {
         hmilyParticipant.setTargetMethod(mongoEntity.getTargetMethod());
         hmilyParticipant.setConfirmMethod(mongoEntity.getConfirmMethod());
         hmilyParticipant.setCancelMethod(mongoEntity.getCancelMethod());
+        try {
+            if (Objects.nonNull(mongoEntity.getConfirmInvocation())) {
+                byte[] confirmInvocation = mongoEntity.getConfirmInvocation();
+                String confirmHmilyInvocation = ByteAndHexadecimalHelper.byte2Hex(confirmInvocation);
+                hmilyParticipant.setConfirmHmilyInvocation(confirmHmilyInvocation);
+            }
+            if (Objects.nonNull(mongoEntity.getCancelInvocation())) {
+                byte[] cancelHmilyInvocation = mongoEntity.getCancelInvocation();
+                String cancelInvocation = ByteAndHexadecimalHelper.byte2Hex(cancelHmilyInvocation);
+                hmilyParticipant.setCancelHmilyInvocation(cancelInvocation);
+            }
+        } catch (Exception ex) {
+            logger.error("mongo 存储序列化错误", ex);
+        }
         hmilyParticipant.setVersion(mongoEntity.getVersion());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         hmilyParticipant.setCreateTime(simpleDateFormat.format(mongoEntity.getCreateTime()));

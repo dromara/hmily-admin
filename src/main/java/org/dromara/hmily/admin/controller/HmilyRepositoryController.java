@@ -28,10 +28,10 @@ import org.dromara.hmily.admin.service.HmilyRepositoryService;
 import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
 import org.dromara.hmily.admin.vo.HmilyTransactionVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -107,5 +107,21 @@ public class HmilyRepositoryController {
         final Boolean success = hmilyRepositoryService.updateHmilyParticipantRetry(batchDTO.getId(), batchDTO.getRetry());
         return AjaxResponse.success(success);
     }
-
+    
+    /**
+     * get compensation info.
+     *
+     * @param batchDTO bbatchDTO
+     * @return {@linkplain AjaxResponse}
+     * */
+    @PostMapping(value = "/compensationInfo")
+    @Permission
+    public AjaxResponse getCompensationInfo(@RequestBody final BatchDTO batchDTO) {
+        if (null == batchDTO.getId()) {
+            return AjaxResponse.error("ParticipantId must not be null");
+        }
+        StringBuilder compensationInfo = hmilyRepositoryService.getCompensationInfo(batchDTO.getId());
+        return AjaxResponse.success(compensationInfo);
+    }
+    
 }

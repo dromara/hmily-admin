@@ -28,8 +28,7 @@ import org.dromara.hmily.admin.config.HmilyAdminProperties;
 import org.dromara.hmily.admin.config.HmilyMongoProperties;
 import org.dromara.hmily.admin.dto.HmilyParticipantDTO;
 import org.dromara.hmily.admin.dto.HmilyTransactionDTO;
-import org.dromara.hmily.admin.enums.HmilyParticipantStatusEnum;
-import org.dromara.hmily.admin.enums.HmilyTransactionStatusEnum;
+import org.dromara.hmily.admin.enums.HmilyActionEnum;
 import org.dromara.hmily.admin.exception.HmilyAdminException;
 import org.dromara.hmily.admin.helper.PageHelper;
 import org.dromara.hmily.admin.page.CommonPager;
@@ -44,11 +43,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import java.net.InetSocketAddress;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Mongodb impl.
@@ -119,10 +116,44 @@ public class MongoHmilyRepositoryService implements HmilyRepositoryService {
         Pair<String, Object> newDataPair = Pair.of("retry", retry);
         final int update = service.update(ParticipantMongoEntity.class,
                 Criteria.where("participant_id").is(participantId), newDataPair);
-        if (update == 1) {
-            return Boolean.TRUE;
+        if (update != 1) {
+            return Boolean.FALSE;
         }
-        return Boolean.FALSE;
+        Pair<String, Object> statusPair = Pair.of("status", HmilyActionEnum.PRE_TRY.getCode());
+        final int statusUpdate = service.update(ParticipantMongoEntity.class,
+                Criteria.where("participant_id").is(participantId)
+                        .and("status").is(HmilyActionEnum.DEATH.getCode()), statusPair);
+        return Boolean.TRUE;
+    }
+    
+    @Override
+    public StringBuilder getCompensationInfo(final Long participantId) {
+        StringBuilder compensationInfo = new StringBuilder();
+        final List<ParticipantMongoEntity> participantMongoEntityList = service.find(ParticipantMongoEntity.class,
+                Criteria.where("participant_id").is(participantId));
+        if (participantMongoEntityList.isEmpty()) {
+            return compensationInfo.append("No such data is stored in the repository");
+        }
+        HmilyParticipantDTO hmilyParticipantDTO = MongoEntityConvert.convert(participantMongoEntityList.get(0));
+        final List<TransactionMongoEntity> transactionMongoEntityList = service.find(TransactionMongoEntity.class,
+                Criteria.where("transaction_id").is(hmilyParticipantDTO.getTransId()));
+        if (transactionMongoEntityList.isEmpty()) {
+            compensationInfo.append("invocation: { " + hmilyParticipantDTO.getCancelHmilyInvocation() + " },");
+            compensationInfo.append("method: { " + hmilyParticipantDTO.getCancelMethod() + " }");
+            return compensationInfo;
+        }
+        HmilyTransactionDTO hmilyTransactionDTO = MongoEntityConvert.convert(transactionMongoEntityList.get(0));
+        if (null == hmilyTransactionDTO
+                || hmilyTransactionDTO.getStatus() == HmilyActionEnum.CANCELING.getCode()) {
+            compensationInfo.append("invocation: { " + hmilyParticipantDTO.getCancelHmilyInvocation() + " },");
+            compensationInfo.append("method: { " + hmilyParticipantDTO.getCancelMethod() + " }");
+        } else if (hmilyTransactionDTO.getStatus() == HmilyActionEnum.CONFIRMING.getCode()) {
+            compensationInfo.append("invocation: { " + hmilyParticipantDTO.getConfirmHmilyInvocation() + " }");
+            compensationInfo.append("method: { " + hmilyParticipantDTO.getConfirmMethod() + " }");
+        } else {
+            compensationInfo.append("No manual compensation is required for global transaction execution");
+        }
+        return compensationInfo;
     }
     
     private MongoClientFactoryBean buildMongoClientFactoryBean(final HmilyMongoProperties hmilyMongoConfig) {
@@ -157,19 +188,7 @@ public class MongoHmilyRepositoryService implements HmilyRepositoryService {
             criteria.and("retry").is(query.getRetry());
         }
         if (null != query.getStatus() && StringUtils.isNotBlank(query.getStatus())) {
-            String status = getStatusByEnum(query.getStatus());
-            List<Integer> statusIntegerList = new LinkedList<>();
-            Arrays.stream(status.split(",")).filter(Objects::nonNull).collect(Collectors.toList()).forEach(o ->
-                    statusIntegerList.add(Integer.parseInt(o)));
-            if ("RETRYING".equals(query.getStatus())) {
-                criteria.and("status").in(statusIntegerList)
-                        .and("version").gt(1);
-            } else if ("RUNNING".equals(query.getStatus())) {
-                criteria.and("status").in(statusIntegerList)
-                        .and("version").is(1);
-            } else {
-                criteria.and("status").in(statusIntegerList);
-            }
+            criteria.and("status").is(HmilyActionEnum.valueOf(query.getStatus()).getCode());
         }
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -185,17 +204,4 @@ public class MongoHmilyRepositoryService implements HmilyRepositoryService {
         return criteria;
     }
     
-    private String getStatusByEnum(final String status) {
-        for (HmilyTransactionStatusEnum o : HmilyTransactionStatusEnum.values()) {
-            if (o.name().equals(status)) {
-                return o.getStatus();
-            }
-        }
-        for (HmilyParticipantStatusEnum o : HmilyParticipantStatusEnum.values()) {
-            if (o.name().equals(status)) {
-                return o.getStatus();
-            }
-        }
-        return "-1";
-    }
 }

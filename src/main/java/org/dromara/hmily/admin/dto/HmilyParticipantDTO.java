@@ -89,6 +89,16 @@ public class HmilyParticipantDTO implements Serializable {
     private String cancelMethod;
     
     /**
+     * confirm hmilyInvocation.
+     */
+    private String confirmHmilyInvocation;
+    
+    /**
+     * cancel hmilyInvocation.
+     */
+    private String cancelHmilyInvocation;
+    
+    /**
      * version.
      */
     private Integer version = 1;
