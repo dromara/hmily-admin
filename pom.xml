@@ -5,7 +5,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dromara</groupId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <artifactId>hmily-admin</artifactId>
 
     <parent>
@@ -24,6 +24,8 @@
         <gson.verions>2.8.0</gson.verions>
         <lombok.version>1.16.14</lombok.version>
         <hikaricp.version>3.2.0</hikaricp.version>
+        <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
+        <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
     </properties>
 
     <dependencies>
@@ -53,11 +55,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-jdbc</artifactId>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -124,27 +121,84 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven.jar.plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>org.dromara.hmily.admin.AdminApplication</mainClass>
+                        </manifest>
+                    </archive>
+                    <excludes>
+                        <exclude>*.properties</exclude>
+                        <exclude>*.yml</exclude>
+                        <exclude>*.xml</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
+
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>org.dromara.hmily.admin.AdminApplication</mainClass>
-                    <executable>true</executable>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven.dependency.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-lib</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <includeScope>compile</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>script/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -154,30 +208,30 @@
                     <useDefaultDelimiters>true</useDefaultDelimiters>
                 </configuration>
             </plugin>
-<!--             <plugin>
-               <groupId>org.sonatype.plugins</groupId>
-               <artifactId>nexus-staging-maven-plugin</artifactId>
-               <version>1.6.3</version>
-               <extensions>true</extensions>
-               <configuration>
-                   <serverId>ossrh</serverId>
-                   <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                   <autoReleaseAfterClose>true</autoReleaseAfterClose>
-               </configuration>
-           </plugin>
-           <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-gpg-plugin</artifactId>
-               <version>1.5</version>
-               <executions>
-                   <execution>
-                       <phase>verify</phase>
-                       <goals>
-                           <goal>sign</goal>
-                       </goals>
-                   </execution>
-               </executions>
-           </plugin>-->
+            <!--             <plugin>
+                           <groupId>org.sonatype.plugins</groupId>
+                           <artifactId>nexus-staging-maven-plugin</artifactId>
+                           <version>1.6.3</version>
+                           <extensions>true</extensions>
+                           <configuration>
+                               <serverId>ossrh</serverId>
+                               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                               <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                           </configuration>
+                       </plugin>
+                       <plugin>
+                           <groupId>org.apache.maven.plugins</groupId>
+                           <artifactId>maven-gpg-plugin</artifactId>
+                           <version>1.5</version>
+                           <executions>
+                               <execution>
+                                   <phase>verify</phase>
+                                   <goals>
+                                       <goal>sign</goal>
+                                   </goals>
+                               </execution>
+                           </executions>
+                       </plugin>-->
             <!-- maven install 跳过测试  等价于命令 mvn install -Dmaven.test.skip = true-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
