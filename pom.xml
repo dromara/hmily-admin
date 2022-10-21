@@ -6,9 +6,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dromara</groupId>
     <packaging>pom</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <modules>
         <module>hmily-admin-service</module>
+        <module>hmily-admin-dist</module>
     </modules>
     <artifactId>hmily-admin-father</artifactId>
 
