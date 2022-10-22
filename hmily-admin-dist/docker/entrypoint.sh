@@ -31,5 +31,5 @@ else
     echo "Start with the environment variable JAVA_OPTS set: $JAVA_OPTS"
 fi
 
-echo "Starting the Apache ShenYu Admin ..."
-exec ${JAVA_HOME}/bin/java ${JAVA_OPTS} -classpath ${CLASS_PATH} org.apache.shenyu.admin.ShenyuAdminBootstrap "$@"
+echo "Starting the dromara hmily Admin ..."
+exec ${JAVA_HOME}/bin/java ${JAVA_OPTS} -classpath ${CLASS_PATH} org.dromara.hmily.admin.AdminApplication "$@"
