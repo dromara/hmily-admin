@@ -1,8 +1,0 @@
-hmily:
-   admin :
-      retryMax : 10
-      repository : redis
-      hmilyZookeeperConfig :
-         host  : 192.168.1.68:2181
-         sessionTimeOut  :  10000
-         rootPath  : /hmily

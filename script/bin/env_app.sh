@@ -1,3 +1,0 @@
-APP_NAME=hmily-admin
-MAX_JAVA_HEAP=4096m
-LOCAL_PROFILE_ACTIVE=${profile.name}

@@ -1,0 +1,15 @@
+server:
+   port: 8888
+   servlet:
+     context-path:
+
+spring:
+   application:
+      name: hmily-admin
+   profiles:
+     active: mysql
+
+hmily:
+  admin :
+    userName : admin
+    password : admin

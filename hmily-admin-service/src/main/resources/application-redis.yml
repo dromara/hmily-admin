@@ -1,0 +1,8 @@
+hmily:
+   admin :
+      retryMax : 10
+      repository : redis
+      hmilyRedisConfig :
+         host  : 192.168.1.68
+         port  :  3306
+         password  : 123456

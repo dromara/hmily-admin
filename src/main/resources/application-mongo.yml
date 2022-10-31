@@ -1,9 +1,0 @@
-hmily:
-   admin :
-      retryMax : 10
-      repository : mongo
-      hmilyMongoConfig :
-            mongoDbUrl  : 192.168.1.68:27017
-            mongoDbName  :  hmily
-            mongoUserName  : xiaoyu
-            mongoUserPwd   : 123456
