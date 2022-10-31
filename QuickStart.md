@@ -14,7 +14,13 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
 
 - 装有maven。
 
-#### 步骤一：maven打包
+#### 步骤一：获取release包文件
+
+> 方法一：直接获取
+
+​    release包已放在`hmily-admin/hmily-admin-service/target/hmily-admin-1.0.2.zip`，获取地址见：[hmily-admin-1.0.2.zip](https://github.com/dromara/hmily-admin/tree/master/targer/hmily-admin-1.0.2.zip)
+
+> 方法二：maven打包生成
 
 - 在项目目录下，使用maven进行打包，生成target目录。
 
@@ -34,7 +40,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
     cd 自定义文件夹路径名/
     unzip hmily-admin-1.0.2.zip 
     #也可以直接 unzip hmily-admin-1.0.2.zip -d 自定义文件夹路径名/
-
+   
    ```
 #### 步骤三：修改配置文件并启动
 * **方法一**：进入解压后的包之后，**修改相对应的配置文件**（在`hmily-admin-1.0.2/config`文件夹中），具体可参考[readme](https://github.com/dromara/hmily-admin/blob/master/README.md)。再执行启动脚本:
@@ -44,7 +50,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
       bash -x bin/start.sh
     
    ```
-​    **若遇到权限问题**，导致启动时一直循环`sleep 1`，可将`bash -x bin/start.sh`命令换成`sudo bash -x bin/start.sh`。启动成功后，会显示进程号。
+  ​    **若遇到权限问题**，导致启动时一直循环`sleep 1`，可将`bash -x bin/start.sh`命令换成`sudo bash -x bin/start.sh`。启动成功后，会显示进程号。
 
 * **方法二**： 提供了一些便捷的方式可以避免手动修改配置文件:
 
@@ -60,7 +66,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
 * 查看日志:
    ```bash
       tail -100f /export/log/hmily-admin/console.log 
-
+   
    ```
 
 
@@ -108,7 +114,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
 
    ```bash
       tail -100f ${your_work_dir}/logs/console.log 
-
+   
    ```
 
 
