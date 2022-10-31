@@ -18,7 +18,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
 
 > 方法一：直接获取
 
-​    release包已放在`hmily-admin/hmily-admin-service/target/hmily-admin-1.0.2.zip`，获取地址见：[hmily-admin-1.0.2.zip](https://github.com/dromara/hmily-admin/tree/master/targer/hmily-admin-1.0.2.zip)
+​    release包已放在`hmily-admin/hmily-admin-service/target/hmily-admin-1.0.2.zip`，获取地址见：[hmily-admin-1.0.2.zip](https://github.com/dromara/hmily-admin/tree/master/hmily-admin-service/target/hmily-admin-1.0.2.zip)
 
 > 方法二：maven打包生成
 
