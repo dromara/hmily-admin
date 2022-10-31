@@ -23,7 +23,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
     mvn package
 ```
 
-- 进入target目录，会发现生成了` hmily-admin-1.0.2.zip`文件。
+- 进入`target`目录，会发现生成了` hmily-admin-1.0.2.zip`文件。
 
 #### 步骤二：解压文件
 
@@ -33,10 +33,11 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
     mv target/hmily-admin-1.0.2.zip 自定义文件夹路径名/hmily-admin-1.0.2.zip
     cd 自定义文件夹路径名/
     unzip hmily-admin-1.0.2.zip 
+    #也可以直接 unzip hmily-admin-1.0.2.zip -d 自定义文件夹路径名/
 
    ```
-#### 步骤三：修改配置文件
-* 方法一：进入解压后的包之后，修改相对应的配置文件（在`hmily-admin-1.0.2/config`文件夹中），具体可参考[readme](https://github.com/dromara/hmily-admin/blob/master/README.md)。再执行启动脚本:
+#### 步骤三：修改配置文件并启动
+* **方法一**：进入解压后的包之后，**修改相对应的配置文件**（在`hmily-admin-1.0.2/config`文件夹中），具体可参考[readme](https://github.com/dromara/hmily-admin/blob/master/README.md)。再执行启动脚本:
    ```bash
       cd hmily-admin-1.0.2/
       # 修改hmily-admin-1.0.2/config中的配置文件后，再执行start.sh
@@ -45,7 +46,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
    ```
 ​    **若遇到权限问题**，导致启动时一直循环`sleep 1`，可将`bash -x bin/start.sh`命令换成`sudo bash -x bin/start.sh`。启动成功后，会显示进程号。
 
-* 方法二： 提供了一些便捷的方式可以避免手动修改配置文件:
+* **方法二**： 提供了一些便捷的方式可以避免手动修改配置文件:
 
    ```bash
       #若只是更换数据库类型
@@ -89,14 +90,26 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
 
 这里以使用mysql为例进行讲解，使用mongo时同理即可。
 
-- 首先将 `hmily-admin-service/src/main/resources`下的`application.yml`、`application-mysql.yml`、`application-mongo.yml`复制到`${your_work_dir}/conf`， 调整`application.yml`中的配置`spring.profiles.active = mysql`，再修改`application-mysql.yml`文件中的配置信息。
+- 首先将 `hmily-admin-service/src/main/resources`下的`application.yml`、`application-mysql.yml`、`application-mongo.yml`复制到`${your_work_dir}/conf`， 调整`application.yml`中的配置`spring.profiles.active = mysql`，再修改`application-mysql.yml`文件中的配置信息为你自己的。
 
-- 执行以下语句：
+- 再执行以下语句：
 
   ```bash
         docker run -v ${your_work_dir}/conf:/opt/hmily-admin/conf \
-        -d -p 8888:8888 dromara/hmily-admin:${current.version}
+        -v ${your_work_dir}/logs:/opt/hmily-admin/logs \
+        -d -p 8888:8888 --name ${your containerName} \ 
+        dromara/hmily-admin:${current.version}
   ```
+
+
+####  步骤三：查看日志
+
+* 查看日志:
+
+   ```bash
+      tail -100f ${your_work_dir}/logs/console.log 
+
+   ```
 
 
 
