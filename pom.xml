@@ -27,7 +27,7 @@
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <guava.version>21.0</guava.version>
         <gson.verions>2.8.0</gson.verions>
-        <lombok.version>1.16.14</lombok.version>
+        <lombok.version>1.18.4</lombok.version>
         <hikaricp.version>3.2.0</hikaricp.version>
         <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
         <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
