@@ -32,7 +32,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
 - 直接命令行传入参数：
 
   ```bash
-        docker run -p 8888:8888 -d --name ${your containerName} \
+        docker run -p 8888:8888 -d --name ${your_container_name} \
         -e "SPRING_PROFILES_ACTIVE=mysql" \
         -e  "hmily.admin.hmilyDbConfig.url=jdbc:mysql://${your_ip_port}/hmily?useUnicode=true&characterEncoding=utf8" \
         -e  "hmily.admin.hmilyDbConfig.username=${your_username}" \
@@ -51,21 +51,17 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
   ```bash
         docker run -v ${your_work_dir}/conf:/opt/hmily-admin/conf \
         -v ${your_work_dir}/logs:/opt/hmily-admin/logs \
-        -d -p 8888:8888 --name ${your containerName} \ 
+        -d -p 8888:8888 --name ${your_container_name} \ 
         dromara/hmily-admin:${current.version}
   ```
-
-
+  
 ####  步骤三：查看日志
 
 * 查看日志:
 
   ```bash
-     tail -100f ${your_work_dir}/logs/console.log 
-  
+     tail -100f ${your_work_dir}/logs/console.log
   ```
-
-
 
 ## 二、release方式
 
@@ -79,32 +75,28 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
 
 #### 步骤一：获取release包文件
 
-获取地址见：[hmily-admin-1.0.2-admin-bin.tar.gz](https://github.com/dromara/hmily-admin/releases/download/1.0.2/)
+获取地址见：[hmily-admin-${version}-admin-bin.tar.gz](https://github.com/dromara/hmily-admin/releases/)，如：
 
 ```bash
       wget https://github.com/dromara/hmily-admin/releases/download/1.0.2/hmily-admin-1.0.2-admin-bin.tar.gz
 ```
 
-
-
 #### 步骤二：解压文件
 
-* 将下载的` hmily-admin-1.0.2-admin-bin.tar.gz`文件，移到自定义位置，进行解压操作:
+* 将下载的` hmily-admin-${current.version}-admin-bin.tar.gz`文件，移到自定义位置，进行解压操作:
 
    ```bash
-      mv hmily-admin-1.0.2-admin-bin.tar.gz 自定义文件夹路径名/hmily-admin-1.0.2-admin-bin.tar.gz
-      cd 自定义文件夹路径名/
-      tar -zxvf  hmily-admin-1.0.2-admin-bin.tar.gz 
-   
+      tar -zxvf  hmily-admin-${current.version}-admin-bin.tar.gz
    ```
+  
 #### 步骤三：修改配置文件并启动
-* **方法一**：进入解压后的包之后，**修改相对应的配置文件**（在`hmily-admin-1.0.2-admin-bin/conf`文件夹中），具体可参考[readme](https://github.com/dromara/hmily-admin/blob/master/README.md)。再执行启动脚本:
+
+* **方法一**：进入解压后的包之后，**修改相对应的配置文件**（在`hmily-admin-${current.version}-admin-bin/conf`文件夹中），具体可参考[readme](https://github.com/dromara/hmily-admin/blob/master/README.md)。再执行启动脚本:
 
    ```bash
-      cd hmily-admin-1.0.2-admin-bin/
-      # 修改hmily-admin-1.0.2-admin-bin/config中的配置文件后，再执行start.sh
+      cd hmily-admin-${current.version}-admin-bin/
+      # 修改hmily-admin-${current.version}-admin-bin/conf中的配置文件后，再执行start.sh
       bash -x bin/start.sh
-    
    ```
      **若遇到权限问题**，导致启动时一直循环`sleep 1`，可将`bash -x bin/start.sh`命令换成`sudo bash -x bin/start.sh`。启动成功后，会显示进程号。
 
@@ -116,15 +108,11 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
       
       #若想更换数据库类型及其其他信息，可使用
       bash -x bin/start.sh -mysql -url127.0.0.1:3306/hmily -uroot -p123456
-      
    ```
 #### 步骤四：查看日志
 * 查看日志:
    ```bash
-      tail -100f /export/log/hmily-admin/console.log 
-   
+      tail -100f /export/log/hmily-admin/console.log
    ```
-
-
-
+  
 ### 如有任何问题欢迎加入QQ群：162614487 进行讨论
