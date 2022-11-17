@@ -28,3 +28,14 @@ build-hmily-admin:
 		-DskipTests \
 		-Prelease \
 		clean package
+
+publish-admin-image: build-hmily-admin
+	@echo "build and push hmily admin image"
+	@docker buildx build --push \
+		--platform=linux/arm64,linux/amd64 \
+		-t ${REGISTRY}/${ADMIN_REPOSITORY}:latest \
+		-t ${REGISTRY}/${ADMIN_REPOSITORY}:${VERSION} \
+		--build-arg APP_NAME=hmily-admin-${VERSION}-admin-bin \
+		--label "commit.id=${COMMIT_ID}" \
+		-f ${HMILY_HOME}/hmily-admin-dist/docker/Dockerfile \
+		${HMILY_HOME}/hmily-admin-dist
