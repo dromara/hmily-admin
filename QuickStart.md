@@ -35,7 +35,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
         docker run -p 8888:8888 -d --name ${your containerName} \
         -e "SPRING_PROFILES_ACTIVE=mysql" \
         -e  "hmily.admin.hmilyDbConfig.url=jdbc:mysql://${your_ip_port}/hmily?useUnicode=true&characterEncoding=utf8" \
-        -e  "hmily.admin.hmilyDbConfig.username=${your_username}"
+        -e  "hmily.admin.hmilyDbConfig.username=${your_username}" \
         -e  "hmily.admin.hmilyDbConfig.password=${your_password}" \
         dromara/hmily-admin:${current.version}
   ```
@@ -106,7 +106,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
       bash -x bin/start.sh
     
    ```
-      **若遇到权限问题**，导致启动时一直循环`sleep 1`，可将`bash -x bin/start.sh`命令换成`sudo bash -x bin/start.sh`。启动成功后，会显示进程号。
+     **若遇到权限问题**，导致启动时一直循环`sleep 1`，可将`bash -x bin/start.sh`命令换成`sudo bash -x bin/start.sh`。启动成功后，会显示进程号。
 
 * **方法二**： 提供了一些便捷的方式可以避免手动修改配置文件:
 
