@@ -50,7 +50,6 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
 
   ```bash
         docker run -v ${your_work_dir}/conf:/opt/hmily-admin/conf \
-        -v ${your_work_dir}/logs:/opt/hmily-admin/logs \
         -d -p 8888:8888 --name ${your_container_name} \ 
         dromara/hmily-admin:${current.version}
   ```
@@ -60,7 +59,7 @@ hmily-admin含有**两种部署方式**：`release`方式、`docker`方式，您
 * 查看日志:
 
   ```bash
-     tail -100f ${your_work_dir}/logs/console.log
+     docker logs ${your_container_name}
   ```
 
 ## 二、release方式
