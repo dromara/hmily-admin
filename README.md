@@ -1,94 +1,16 @@
-# Hmily-admin
+# hmily-admin
+
 Hmily-admin是柔性分布式事务中间件hmily的配套展示平台，**请搭配[hmily](https://github.com/dromara/hmily) 使用**。
 若您想更多个性化的需求，请下载[hmily-dashboard](https://github.com/dromara/hmily-dashboard) 自行修改。
 
-## hmily-admin启动教程
+## 部署/本地启动
 
-**启动前提：** 分布式事务项目[hmily](https://github.com/dromara/hmily)已经部署并且运行起来，用户根据自己的RPC框架进行使用。
+* [**使用 Docker 快速部署（推荐）**](quick-start.md)
+* [通过 GitHub release 包部署](deploy-from-release.md)
+* [从源码本地启动](./run-from-source.md)
 
-hmily-admin分为两个模块：hmily-admin-service、hmily-admin-dist。
+## Hmily-admin 特性解读
 
-- hmily-admin-service：项目的主体服务，包含项目的所有功能，可单独启动。同时包含`release`部署方案，详细部署方法见：[快速部署体验](https://github.com/dromara/hmily-admin/blob/master/QuickStart.md)
-- hmily-admin-dist：打包模块，用于docker部署。详细部署方法见：[快速部署体验](https://github.com/dromara/hmily-admin/blob/master/QuickStart.md)
-
-
-
-**以下启动教程只涉及`hmily-admin-service`模块。**
-
-### 步骤零：准备工作
-
-* 首先用户使用的JDK必须是`1.8+` ，本地安装了`git`、`maven` ，执行以下命令：
-
-   ```
-   git clone https://github.com/dromara/hmily-admin.git
-   ```
-* 使用你的开发工具打开项目，比如idea、Eclipse
-
-### 步骤一：更改配置
-
-* 在`hmily-admin-service`模块的`application.yml`文件中，修改您的服务端口、日志存储（数据库）类型、账户信息等配置:
-
-   ```yml
-      #admin项目的tomcat端口
-      server:
-          port: 8888
-          servlet:
-            context-path:     # 项目访问的url前缀，可不配置
-
-      #profiles.active 在hmily中指定的日志存储源类型
-       spring:
-          application:
-            name: hmily-admin
-          profiles:
-            active: mysql
-     
-      #登录admin项目的账户密码
-       hmily:
-         admin :
-           userName : admin
-           password : admin
-   ```
-![](https://github.com/yu199195/yu199195.github.io/tree/master/images/hmily/config.jpg)
-
-* 根据在上述`application.yml`中配置的`spring.profiles.active`类型，更改对应的`application-mongo.yml`或`application-mysql.yml`文件。
-* **当前版本的admin仅支持`mysql`和`mongo`等两种存储方式**。
-  `application-mongo.yml`参考如下：
-
-   ```
-   hmily:
-      admin :
-         retryMax : 10
-         repository : mongo
-         hmilyMongoConfig :
-               mongoDbUrl  : 127.0.0.1:27017
-               mongoDbName  :  hmily
-               mongoUserName  : root
-               mongoUserPwd   : 1
-   ```
-![](https://github.com/yu199195/yu199195.github.io/tree/master/images/hmily/mongoConfig.jpg)
-
-`application-mysql.yml` 参考如下：
-   ```
-   hmily:
-      admin :
-         retryMax : 10
-         repository : mysql
-         hmilyDbConfig :
-               driverClassName:  com.mysql.jdbc.Driver
-               url: jdbc:mysql://localhost:3306/hmily?useUnicode=true&amp;characterEncoding=utf8
-               username: root
-               password: 1
-   ```
-
-![](https://github.com/yu199195/yu199195.github.io/tree/master/images/hmily/mysqlConfig.jpg)
-
-### 步骤二：运行 AdminApplication 中的main方法。
-
-### 步骤三：访问Hmily-admin
-* 在浏览器访问 http://ip:port ，输入用户名，密码登录。
-  ![](https://github.com/yu199195/yu199195.github.io/tree/master/images/hmily/login.jpg)
-
-### 步骤四：Hmily-admin功能解读
 * 根据不同的查询条件对全局事务进行检索
   应用名：一般为微服务的应用名称，需要保证唯一性。
   模式类型下拉框：当前版本仅支持TCC。
@@ -131,9 +53,6 @@ hmily-admin分为两个模块：hmily-admin-service、hmily-admin-dist。
   也可以批量进行删除，此删除操作需谨慎操作，以免由于误操作导致无法找到对应分支事务数据。
   ![](https://github.com/yu199195/yu199195.github.io/tree/master/images/hmily/delete.jpg)
 
-## 快速部署体验
+## 欢迎交流沟通
 
-hmily-admin含有两种部署方式：`release`方式、`docker`方式，详细见：[快速部署体验](https://github.com/dromara/hmily-admin/blob/master/QuickStart.md)
-
-
-### 如有任何问题欢迎加入QQ群：162614487 进行讨论
+如有任何问题欢迎加入QQ群：162614487 进行讨论
